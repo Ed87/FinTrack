@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="~/assets/images/logo-mihr.png" type="image/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="author" content="EasyBooks Solutions">
+    <meta name="viewport" content="width=device-width" />
+    <title>MIHR System</title>
+    <!-- Main Styles -->
+    @Styles.Render("~/Content/mycss")
+        
+    <script src="~/assets/scripts/Angular.min.js"></script>
+
+
+    <!-- Adding your custom style -->
+    @RenderSection("style", required: false)
+    @RenderSection("datepicker_style", required: false)
+</head>
+<body ng-app="MIHR">
+    <script type="text/javascript">
+        setTimeout(function () {
+            window.location.href = "@Url.Action("Login","User")";
+        }, 20 * 60 * 1000);
+
+    </script>
+
+
+
+    <div>
+
+        <header class="fixed-header">
+            <div class="pull-left">
+                <div class="logo">
+                    <img src="~/assets/images/logo-mihr.png" alt="">
+                </div>
+
+            </div>
+            <section id="login">
+                <form action="~/User/Logout" id="logoutForm" method="post">
+                    <div class="userinfo Fiado">
+
+                        <div>
+                            Welcome! <b>
+                                <a href="~/Employee/EmployeeDetail/@Convert.ToString(Session["UserId"])" title="My Account">
+                                        @Helpers.TitleCaseString(Session["Username"].ToString())
+                                        [
+                                        @Helpers.TitleCaseString(Session["JobTitle"].ToString())
+                                        ]
+
+                                    </a>
+                            </b>
+                        </div>
+                        <span>
+                            <span>
+                            </span>
+                            <a href="~/User/ChangePassword">
+                                <img src="~/assets/images/ChangePassword.png" title="Change Password" width="16" height="16" />
+                            </a>
+                            <a href="javascript:document.getElementById('logoutForm').submit()" class="view-main-site">Log off</a>
+
+                        </span><ins></ins>
+                    </div>
+                </form>
+            </section>
+
+
+            <!-- /.Top Menu -->
+
+
+            @if (Convert.ToInt32(Session["UserRole"]) == Helpers.parameters.user || Convert.ToInt32(Session["UserRole"]) == Helpers.parameters.sectionhead)
+            {
+
+                <nav class="nav-horizontal">
+                    <div class="container-fluid">
+
+                        @if (Convert.ToString(Session["picture"]).Length > 0)
+                        {
+                            <img src="~/EmployeeProfile/@Convert.ToString(Session["picture"])" alt="No Profile Pic" style="max-height:10%;max-width:10%;margin-left:-17%"> <br />
+
+                        }
+
+
+                        <ul class="menu" style="@Convert.ToString(Session["control"])">
+
+                            <li>
+                                <a href="~/Home/index"><i class="ico fa fa-home"></i><span>Dashboard</span></a>
+                            </li>
+
+                            <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-envelope"></i><span>My Applications</span></a>
+                                <ul class="sub-menu single">
+                                    <li><a href="~/Leave/LeaveApplications/">Leave Applications</a></li>
+                                    <li><a href="~/Leave/CashInLeau/">Cash_Leave InLieu</a></li>
+                                    <li><a href="~/Employee/SalaryAdvance">Salary Advance</a></li>
+                                    <li><a href="~/FileUpload/MyUploads">Document Uploading</a></li>
+                                    <li><a href="~/Employee/Loan">Loan Application</a></li>
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+                            <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-eye"></i><span>View</span></a>
+                                <ul class="sub-menu single">
+                                    <li><a href="~/Employee/EmployeeDetail/@Convert.ToString(Session["UserId"])">My file</a></li>
+
+                                    <li><a href="~/Employee/PaySlip">Payslip</a></li>
+                                    <li><a href="~/Policy/policy">Policies And Procedures</a></li>
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+
+
+
+                        </ul>
+                        <!-- /.menu -->
+                    </div>
+                    <!-- /.container -->
+                </nav>
+                <!-- /.Top Menu -->
+
+                <!-- /.Top Menu -->
+
+
+
+            }
+
+            else
+            {
+
+
+
+                <nav class="nav-horizontal">
+                    <div class="container-fluid">
+
+                        @if (Convert.ToString(Session["picture"]).Length > 0)
+                        {
+                            <img src="~/EmployeeProfile/@Convert.ToString(Session["picture"])" alt="No Profile Pic" style="max-height:100px;max-width:100px;margin-left:-17%"> <br />
+
+                        }
+
+
+                        <ul class="menu" style="@Convert.ToString(Session["control"])">
+
+                            <li>
+                                <a href="~/Home/index"><i class="ico fa fa-home"></i><span>Dashboard</span></a>
+                            </li>
+
+
+                            <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-book"></i><span>Management Self Service</span></a>
+                                <ul class="sub-menu single">
+                                    <li><a href="~/Employee/RecruitmentRequisition">Recruitment Requisition</a></li>
+                                    <li><a href="~/Employee/index">Employee Detail</a></li>
+                                    <li><a href="~/Employee/TransferRequest">Employee Transfer</a></li>
+                                    <li><a href="~/Employee/PromotionRequest">Employee Promotion</a></li>
+                                    <li><a href="~/Employee/Suspension">Employee Suspension</a></li>
+                                    <li><a href="~/Employee/Termination">Employment Termination</a></li>
+                                    <li><a href="~/Payrun/Index">Pay Schedule</a></li>
+                                    <li><a href="~/Payrun/PayRuns">Pay Runs</a></li>
+                                    <li><a href="~/Leave/LeaveApplications">Leave Applications</a></li>
+                                    <li><a href="~/Employee/OverTime">Overtime Requisition</a></li>
+                                    <li><a href="~/Notification/index">Notifications And Memo</a></li>
+                                    <li><a href="~/Policy/index">Policies And Procedures</a></li>
+                                    <li><a href="~/fileupload/uploadGlobal">Employee Documents</a></li>
+
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+
+                              <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-envelope"></i><span>My Applications</span></a>
+                                <ul class="sub-menu single">
+                                    <li><a href="~/Leave/LeaveApplications/">Leave Applications</a></li>
+                                    <li><a href="~/Leave/CashInLeau/">Cash_Leave InLieu</a></li>
+                                    <li><a href="~/Employee/SalaryAdvance">Salary Advance</a></li>
+                                    <li><a href="~/FileUpload/MyUploads">Document Uploading</a></li>
+                                    <li><a href="~/Employee/Loan">Loan Application</a></li>
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+
+                              <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-eye"></i><span>View</span></a>
+                                <ul class="sub-menu single">
+                                    <li><a href="~/Employee/EmployeeDetail/@Convert.ToString(Session["UserId"])">My file</a></li>
+                                   
+                                    <li><a href="~/Employee/PaySlip">Payslip</a></li>
+                                    <li><a href="~/Policy/policy">Policies And Procedures</a></li>
+                                </ul>
+                                <!-- /.sub-menu single -->
+                             </li>
+                             @if (Convert.ToInt32(Session["UserRole"]) == Helpers.parameters.payrollmaster || Convert.ToInt32(Session["UserRole"]) == Helpers.parameters.IHead)
+
+                            {
+                                <li class="has-sub">
+                                    <a href="#"><i class="ico fa fa-dollar"></i><span>Payroll Management</span></a>
+                                    <ul class="sub-menu single">
+                                        <li><a href="~/Payrun/Index">Pay Schedule</a></li>
+                                        <li><a href="~/Payrun/PayRuns">Pay Runs</a></li>
+                                    </ul>
+
+                                </li>
+                            }
+
+                             <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-bar-chart"></i><span>Adjustments</span></a>
+                                <ul class="sub-menu single">
+
+                                    <li><a href="~/Adjustment/AdjustmentType">Adjustment Types</a></li>
+                                    <li><a href="~/Adjustment/Index">Grade Benefit</a></li>
+                                    <li><a href="~/Adjustment/SalaryAdjustment">Basic Salary</a></li>
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+                            <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-building"></i><span>Training and Development</span></a>
+                                <ul class="sub-menu single">
+
+                                    <li><a href="~/TrainingDevelopment/Index">Training Requests</a></li>
+                                    <li><a href="~/Succession/Index">Succession</a></li>
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+
+
+                            <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-building-o"></i><span>Industrial Relations</span></a>
+                                <ul class="sub-menu single">
+                                    <li><a href="~/Grievance/Index">Grievance</a></li>
+                                    <li><a href="~/Hearing/Index">Notice to Disciplinary Hearing</a></li>
+                                    <li><a href="~/Penalty/Index">Penalties</a></li>
+
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+
+
+                            <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-book"></i><span>Reports</span></a>
+                                <ul class="sub-menu single">
+
+                                    <li><a href="~/Department/index">Departmental Employement Cost</a></li>
+                                    <li><a href="~/Department/reports">visual Department stats</a></li>
+                                    <li><a href="~/Department/tabular">Tabular Department stats</a></li>
+                                    <li><a href="~/Department/ppe">PPE</a></li>
+                                    <li><a href="~/Department/overtime">Overtime Analysis</a></li>
+                                    <li><a href="~/Department/leave">Leave Report</a></li>
+                                    <li><a href="~/PayRun/report">Salary Bank Schedule</a></li>
+                                    @*<li><a href="#">Payroll Reports</a></li>
+                                        <li><a href="#">HR Reports</a></li>
+                                        <li><a href="#">Leave Reports</a></li>*@
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+                
+                            <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-briefcase"></i><span>Settings A</span></a>
+                                <ul class="sub-menu single">
+
+                                    <li><a href="~/Utility/Department">Department</a></li>
+                                    <li><a href="~/Utility/Region">Work Region</a></li>
+                                    <li><a href="~/Utility/WorkStation">Work Station</a></li>
+                                    <li><a href="~/Utility/CompensationParameter">Employee Benefits</a></li>
+                                    <li><a href="~/Utility/JobGrade">Job Grade</a></li>
+                                    <li><a href="~/GradeBenefit/Index">Grade Benefit</a></li>
+                                    <li><a href="~/Utility/JobTitle">Job Title</a></li>
+                                    <li><a href="~/Utility/PensionContribution">Pension Contribution</a></li>
+                                    <li><a href="~/Utility/EmploymentType">Employment Type</a></li>
+                                    <li><a href="~/Leave/LeaveType">Leave Types</a></li>
+                                    <li><a href="~/Leave/LeavePolicy">Leave Policy</a></li>
+                                    <li><a href="~/Leave/LeaveGradeRate">Leave Rates</a></li>
+
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+
+                            <li class="has-sub">
+                                <a href="#"><i class="ico fa fa-briefcase"></i><span>Settings B</span></a>
+                                <ul class="sub-menu single">
+                                    <li><a href="~/Payrun/PayDayCode">Pay Code</a></li>
+                                    <li><a href="~/TaxTable/Index">Tax Table</a></li>
+                                    <li><a href="~/TaxTable/OverTimeRate">OverTime Rate</a></li>
+                                    <li><a href="~/Payrun/Bank">Bank</a></li>
+                                    <li><a href="~/Payrun/BankBranch">Bank Sort Code</a></li>
+                                    <li><a href="~/Payrun/Policy">Loan &amp; Advance Policy </a></li>
+                                    <li><a href="~/FileUpload/DocumentCategory">Document Category</a></li>
+                                    <li><a href="~/Utility/SystemUser">User List</a></li>
+
+
+                                </ul>
+                                <!-- /.sub-menu single -->
+                            </li>
+
+                        
+                        </ul>
+                        <!-- /.menu -->
+                    </div>
+                    <!-- /.container -->
+                </nav>
+                <!-- /.Top Menu -->
+
+                <!-- /.Top Menu -->
+
+            }
+
+        </header>
+        <!-- /.fixed-header -->
+        @RenderBody()
+        <div class="footer">Developed &amp; Supported by <a style="color:blue;" target="_blank" href="http://www.mihrafrica.com">MiHR Business Partner</a> | Version 1.0</div>
+
+    </div>
+    <!--/#wrapper -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets/script/html5shiv.min.js"></script>
+        <script src="assets/script/respond.min.js"></script>
+    <![endif]-->
+    <!--
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    @Scripts.Render("~/bundles/myscripts")
+    @RenderSection("scripts", required: false)
+    @RenderSection("angular", required: false)
+    @RenderSection("validation", required: false)
+    @RenderSection("datepicker_js", required: false)
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+ 
+</body>
+</html>
