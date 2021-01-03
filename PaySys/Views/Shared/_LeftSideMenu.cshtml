@@ -3,7 +3,7 @@
     {*@
 
         <li class="active">
-            <a href="~/Home/index">
+            <a href="~/User/Index">
                 <i class="menu-icon fa fa-tachometer"></i>
                 <span class="menu-text"> Dashboard </span>
             </a>
@@ -14,7 +14,7 @@
 
         <li class="">
             <a href="#" class="dropdown-toggle">  
-                <span class="menu-text"> Employee Self Service </span>
+                <span class="menu-text"> Transactions </span>
 
                 <b class="arrow fa fa-angle-down"></b>
             </a>
@@ -22,21 +22,14 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-                <li><a href="~/Invoicing/Index/">Purchases</a></li>
+                <li><a href="~/Invoicing/Index/">Payments</a></li>
+                 <li><a href="~/Invoicing/Index/">Create Student</a></li>
                 <li><a href="~/Invoicing/Create/">Capture Payment</a></li>
-                <li><a href="~/Employee/SalaryAdvance">Update Payment</a></li>
-                <li><a href="~/FileProcess/Index">Review Task Files</a></li>
-
-                @*<li><a href="~/Employee/EmployeeDetail/@Convert.ToString(Session["UserId"])">My file</a></li>*@
-
+                <li><a href="~/Invoicing/Create/">Update Payment</a></li>
+               
             </ul>
         </li>
-    @*//}*@
-
-    @*else
-    {*@
-
-
+   
         <li class="">
             <a href="#" class="dropdown-toggle">
               
@@ -70,8 +63,8 @@
                 <li class=""><a href="~/Invoicing/Services">Services</a><b class="arrow"></b></li>
                 <li class=""><a href="~/Invoicing/Vendors">Service Providers</a><b class="arrow"></b></li>
                 <li class=""><a href="~/Invoicing/Departments">Departments</a><b class="arrow"></b></li>
-                <li class=""><a href="~/Invoicing/WorkStation">Currencies</a><b class="arrow"></b></li>
-                <li class=""><a href="~/Invoicing/DirectorsSchedule">Business Units</a><b class="arrow"></b></li>
+                @*<li class=""><a href="~/Invoicing/WorkStation">Currencies</a><b class="arrow"></b></li>*@
+                @*<li class=""><a href="~/Invoicing/DirectorsSchedule">Business Units</a><b class="arrow"></b></li>*@
 
             </ul>
         </li>

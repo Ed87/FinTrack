@@ -8,6 +8,7 @@ namespace PaySys.Models.User
     public class LoginViewModel
     {
         public string Username { get; set; }
+        public string EmployeeNumber { get; set; }
         public string Password { get; set; }
         public string UserId{ get; set; }
         public string UserPassword { get; set; }

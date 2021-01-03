@@ -1,285 +1,436 @@
 ﻿@model IEnumerable<PaySys.Models.Invoice>
-@{
-    ViewBag.Title = "PurchaseDetails";
-    Layout = "~/Views/Shared/_LayoutPageh.cshtml";
-}
 
-<div class="main-content-inner">
-    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
-        <ul class="breadcrumb">
-            <li>
-                <i class="ace-icon fa fa-home home-icon"></i>
-                <a href="#">Invoicing</a>
-            </li>
 
-            <li class="active">Invoice Details</li>
-        </ul><!-- /.breadcrumb -->
+    @{
+        ViewBag.Title = "PurchaseDetails";
+        Layout = "~/Views/Shared/_LayoutPageh.cshtml";
+    }
 
-        <div class="nav-search" id="nav-search">
-            <form class="form-search">
-                <span class="input-icon">
-                    <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-                    <i class="ace-icon fa fa-search nav-search-icon"></i>
-                </span>
-            </form>
-        </div><!-- /.nav-search -->
-    </div>
-    <div class="page-content">
-        <div class="ace-settings-container" id="ace-settings-container">
-            <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
-                <i class="ace-icon fa fa-cog bigger-130"></i>
-            </div>
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">Invoicing</a>
+                </li>
 
-            <div class="ace-settings-box clearfix" id="ace-settings-box">
-                <div class="pull-left width-50">
-                    <div class="ace-settings-item">
-                        <div class="pull-left">
-                            <select id="skin-colorpicker" class="hide">
-                                <option data-skin="no-skin" value="#438EB9">#438EB9</option>
-                                <option data-skin="skin-1" value="#222A2D">#222A2D</option>
-                                <option data-skin="skin-2" value="#C6487E">#C6487E</option>
-                                <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
-                            </select>
+                <li class="active">Invoice Details</li>
+            </ul><!-- /.breadcrumb -->
+
+            <div class="nav-search" id="nav-search">
+                <form class="form-search">
+                    <span class="input-icon">
+                        <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                        <i class="ace-icon fa fa-search nav-search-icon"></i>
+                    </span>
+                </form>
+            </div><!-- /.nav-search -->
+        </div>
+        <div class="page-content">
+            <div class="ace-settings-container" id="ace-settings-container">
+                <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                    <i class="ace-icon fa fa-cog bigger-130"></i>
+                </div>
+
+                <div class="ace-settings-box clearfix" id="ace-settings-box">
+                    <div class="pull-left width-50">
+                        <div class="ace-settings-item">
+                            <div class="pull-left">
+                                <select id="skin-colorpicker" class="hide">
+                                    <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                    <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                    <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                    <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                                </select>
+                            </div>
+                            <span>&nbsp; Choose Skin</span>
                         </div>
-                        <span>&nbsp; Choose Skin</span>
-                    </div>
 
-                    <div class="ace-settings-item">
-                        <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
-                        <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
-                    </div>
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                        </div>
 
-                    <div class="ace-settings-item">
-                        <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
-                        <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
-                    </div>
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                        </div>
 
-                    <div class="ace-settings-item">
-                        <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
-                        <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
-                    </div>
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                        </div>
 
-                    <div class="ace-settings-item">
-                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
-                        <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
-                    </div>
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                        </div>
 
-                    <div class="ace-settings-item">
-                        <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
-                        <label class="lbl" for="ace-settings-add-container">
-                            Inside
-                            <b>.container</b>
-                        </label>
-                    </div>
-                </div><!-- /.pull-left -->
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-add-container">
+                                Inside
+                                <b>.container</b>
+                            </label>
+                        </div>
+                    </div><!-- /.pull-left -->
 
-                <div class="pull-left width-50">
-                    <div class="ace-settings-item">
-                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
-                        <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
-                    </div>
+                    <div class="pull-left width-50">
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                        </div>
 
-                    <div class="ace-settings-item">
-                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
-                        <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
-                    </div>
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                        </div>
 
-                    <div class="ace-settings-item">
-                        <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
-                        <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
-                    </div>
-                </div><!-- /.pull-left -->
-            </div><!-- /.ace-settings-box -->
-        </div><!-- /.ace-settings-container -->
-        <h4 class="box-title">Invoice Details</h4>
-        @*<div class="text-success">@ViewBag.SuccessMessage</div>*@
-        @*<div class="error">@ViewBag.ErrorMessage</div>*@
-        <div class="row">
-            <div class="col-xs-12">
-                <div>
-                    <div class="user-profile row">
-                        <div class="col-sm-offset-1 col-sm-8">
-                          
-                            <div>
-                                <div class="tabbable">
-                                    <div class="tab-content profile-edit-tab-content">
-                                        <div id="edit" class="tab-pane in active">
-                                            <div class="row">
-                                                <div class="col-xs-12">
-                                                    <div class="space-6"></div>
-                                                    <div class="row">
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                        </div>
+                    </div><!-- /.pull-left -->
+                </div><!-- /.ace-settings-box -->
+            </div><!-- /.ace-settings-container -->
+            <h4 class="box-title">Invoice Details</h4>
+            @*<div class="text-success">@ViewBag.SuccessMessage</div>*@
+            @*<div class="error">@ViewBag.ErrorMessage</div>*@
+            <div class="row">
+                <div class="col-xs-12">
+                    <div>
+                        <div class="user-profile row">
+                            <div class="col-sm-offset-1 col-sm-8">
 
-
-                                                        <div class="col-sm-10 col-sm-offset-1">
-                                                            @{ int i = 1;}
-                                                            @foreach (var item in Model)
-                                                            {
-                                                                <div class="widget-box transparent">
-                                                                    <div class="widget-header widget-header-large">
-                                                                        <h3 class="widget-title grey lighter">
-                                                                            <i class="ace-icon fa fa-leaf green"></i>
-                                                                            Customer Invoice
-                                                                        </h3>
-
-                                                                        <div class="widget-toolbar no-border invoice-info">
-                                                                            <span class="invoice-info-label">Invoice:</span>
-                                                                            <span class="red"><strong>@item.Reference</strong></span>
-
-                                                                            <br>
-                                                                            <span class="invoice-info-label">Date:</span>
-                                                                            <span class="blue">@item.CreatedOn</span>
-                                                                        </div>
-
-                                                                        <div class="widget-toolbar hidden-480">
-                                                                            <a href="~/Reports/GenerateMemo">
-                                                                                <i class="ace-icon fa fa-print"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="widget-body">
-                                                                        <div class="widget-main padding-24">
-                                                                            <div class="row">
-                                                                                <div class="col-sm-6">
-                                                                                    <div class="row">
-                                                                                        <div class="col-xs-11 label label-lg label-info arrowed-in arrowed-right">
-                                                                                            <b>Payment Info</b>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div>
-                                                                                        <ul class="list-unstyled spaced">
-                                                                                            <li>
-                                                                                                <i class="ace-icon fa fa-caret-right blue"></i>@item.BusUnit
-                                                                                            </li>
-
-                                                                                            <li>
-                                                                                                <i class="ace-icon fa fa-caret-right blue"></i>@item.ExpType
-                                                                                            </li>
-
-                                                                                            <li>
-                                                                                                <i class="ace-icon fa fa-caret-right blue"></i>@item.Vendor
-                                                                                            </li>
-                                                                                            <li class="divider"></li>
-
-
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </div><!-- /.col -->
-
-                                                                                <div class="col-sm-6">
-                                                                                    <div class="row">
-                                                                                        <div class="col-xs-11 label label-lg label-success arrowed-in arrowed-right">
-                                                                                            <b> Payment Info</b>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div>
-                                                                                        <ul class="list-unstyled  spaced">
-                                                                                            <li>
-                                                                                                <i class="ace-icon fa fa-caret-right green"></i>@item.Status
-                                                                                            </li>
-
-                                                                                            <li>
-                                                                                                <i class="ace-icon fa fa-caret-right green"></i>@*@item.SettledOn*@
-                                                                                            </li>
-
-                                                                                            <li>
-                                                                                                <i class="ace-icon fa fa-caret-right blue"></i>
-                                                                                                Quantity:
-                                                                                                <b class="red">@item.Quantity</b>
-                                                                                            </li>
-
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </div><!-- /.col -->
-                                                                            </div><!-- /.row -->
-
-                                                                            <div class="space"></div>
-
-                                                                            <div>
-                                                                                <table class="table table-striped table-bordered">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th class="center">#</th>
-                                                                                            <th>Allocation</th>
-                                                                                            <th class="hidden-xs">Description</th>
-                                                                                            <th class="hidden-480">Attachment</th>
-                                                                                            <th class="hidden-480">Qouted</th>
-                                                                                            <th class="hidden-480">Discount</th>
-                                                                                            <th class="hidden-480">Actual</th>
-
-                                                                                        </tr>
-                                                                                    </thead>
-
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <td class="center"> @i</td>
-
-                                                                                            <td>
-                                                                                                <a href="#">@item.Allocation</a>
-                                                                                            </td>
-                                                                                            <td class="hidden-xs">
-                                                                                                @item.Description
-                                                                                            </td>
-                                                                                            <td class="hidden-480">
-                                                                                                @if (!String.IsNullOrEmpty(item.DocumentUrl))
-                                                                                                {
-                                                                                                    <a href="~/Invoicing/download/@item.InvoiceId" class="btn btn-success"> <i class="fa fa-download"></i></a>
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                    <span> No file uploaded</span>
-                                                                                                }
-                                                                                            </td>
-                                                                                            <td>@item.QuotedAmount</td>
-                                                                                            <td>@item.Discount</td>
-                                                                                            <td>@item.ActualAmount</td>
-                                                                                        </tr>
-
-
-                                                                                    </tbody>
-                                                                                </table>
+                                <div>
+                                    <div class="tabbable">
+                                        <div class="tab-content profile-edit-tab-content">
+                                            <div id="edit" class="tab-pane in active">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="space-6"></div>
+                                                        <div class="row">
+                                                            <div id="modal-form" class="modal" tabindex="-1" style="display:none">
+                                                                @using (Html.BeginForm("memo", "Invoicing", null, FormMethod.Post, new { @class = "", role = "form" }))
+                                                                {
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                                <h4 class="blue bigger">Please fill in information for Memorandum</h4>
                                                                             </div>
 
-                                                                            <div class="hr hr8 hr-double hr-dotted"></div>
+                                                                            <div class="modal-body">
+                                                                                <div class="row">
 
-                                                                            <div class="row">
-                                                                                <div class="col-sm-5 pull-right">
-                                                                                    <h4 class="pull-right">
-                                                                                        Total amount :
-                                                                                        <span class="red">@item.ActualAmount</span>
-                                                                                    </h4>
+                                                                                    <div class="col-xs-12 col-sm-7">
+                                                                                        <div class="form-group">
+                                                                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-tags"><strong>Cc</strong></label>
+
+                                                                                            <div class="col-sm-9">
+                                                                                                <div class="inline">
+                                                                                                    @*<div class="tags"><input type="text" name="tags" id="form-field-tags" value="Tag Input Control" placeholder="Enter tags ..." style="display: none;"><input type="text" placeholder="Enter tags ..."><ul class="typeahead dropdown-menu" style="top: 54.2px; left: 19px; display: none;"><li data-value="Pennsylvania" class=""><a href="#"><strong>P</strong>ennsylvania</a></li><li data-value="Mississippi"><a href="#">Mississi<strong>p</strong><strong>p</strong>i</a></li><li data-value="New Hampshire" class="active"><a href="#">New Ham<strong>p</strong>shire</a></li></ul></div>*@
+                                                                                                    @*@Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                                                                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })*@
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="space-4"></div>
+
+                                                                                        <div>
+                                                                                            <label for="form-field-first"><strong>Memo Body</strong></label>
+                                                                                            <textarea id="form-field-11" class="autosize-transition form-control" style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 52px;"></textarea>
+                                                                                        </div>
+
+                                                                                        <div class="space-4"></div>
+
+                                                                                        <div class="form-group">
+                                                                                            <label for="form-field-first"><strong>Cc</strong></label>
+
+                                                                                            <div>
+                                                                                                <textarea id="form-field-11" class="autosize-transition form-control" style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 52px;"></textarea>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="modal-footer">
+                                                                                <button class="btn btn-sm" data-dismiss="modal">
+                                                                                    <i class="ace-icon fa fa-times"></i>
+                                                                                    Cancel
+                                                                                </button>
+
+                                                                                <button class="btn btn-sm btn-primary">
+                                                                                    <i class="ace-icon fa fa-check"></i>
+                                                                                    Print
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </div><!-- PAGE CONTENT ENDS -->
+
+                                                            <div class="col-sm-10 col-sm-offset-1">
+                                                                @{ int i = 1;}
+                                                                @foreach (var item in Model)
+                                                                {
+                                                                    <div class="widget-box transparent">
+                                                                        <div class="widget-header widget-header-large">
+                                                                            <h3 class="widget-title grey lighter">
+                                                                                <i class="ace-icon fa fa-leaf green"></i>
+                                                                                Payment Invoice
+                                                                            </h3>
+
+                                                                            <div class="widget-toolbar no-border invoice-info">
+                                                                                <span class="invoice-info-label">Invoice #:</span>
+                                                                                <span class="red"><strong>@item.Reference</strong></span>
+
+                                                                                <br>
+                                                                                <span class="invoice-info-label">Date:</span>
+                                                                                <span class="blue">@item.CreatedOn</span>
+                                                                            </div>
+
+                                                                            <div class="widget-toolbar hidden-480">
+                                                                                <a href="~/Reports/GenerateMemo">
+                                                                                    @*<a href="#modal-form" data-toggle="modal" role="button">*@
+                                                                                    <i class="fa fa-file-pdf-o bigger-110 red" aria-hidden="false"></i>
+                                                                                </a>
+                                                                            </div>  <div class="widget-toolbar hidden-480">
+                                                                                <a href="~/Reports/GenerateWordMemo">
+                                                                                    @*<a href="#modal-form" data-toggle="modal" role="button">*@
+                                                                                    <i class="fa fa-file-word-o bigger-110 red" aria-hidden="false"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="widget-toolbar hidden-480">
+                                                                                <a href="~/Reports/GenerateWordMemo">
+                                                                                    <a href="#modal-form" data-toggle="modal" role="button">
+                                                                                        <i class="ace-icon fa fa-file red"></i>
+                                                                                        @*<i class="fas fa-file-prescription bigger-110" aria-hidden="false"></i>*@
+                                                                                    </a>
+                                                                            </div>
+                                                                            @*<h4 class="pink">
+            <i class="ace-icon fa fa-hand-o-right green"></i>
+            <a href="#modal-form" role="button" class="blue" data-toggle="modal"> Form Inside a Modal Box </a>
+        </h4>*@
+                                                                        </div>
+
+                                                                        <div class="widget-body">
+                                                                            <div class="widget-main padding-24">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="row">
+                                                                                            <div class="col-xs-11 label label-lg label-info arrowed-in arrowed-right">
+                                                                                                <b>Payment Info</b>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div>
+                                                                                            <ul class="list-unstyled spaced">
+                                                                                                <li>
+                                                                                                    <i class="ace-icon fa fa-caret-right blue"></i>@item.BusUnit
+                                                                                                </li>
+
+                                                                                                <li>
+                                                                                                    <i class="ace-icon fa fa-caret-right blue"></i>@item.ExpType
+                                                                                                </li>
+
+                                                                                                <li>
+                                                                                                    <i class="ace-icon fa fa-caret-right blue"></i>@item.Vendor
+                                                                                                </li>
+                                                                                                <li class="divider"></li>
+
+
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div><!-- /.col -->
+
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="row">
+                                                                                            <div class="col-xs-11 label label-lg label-success arrowed-in arrowed-right">
+                                                                                                <b> Payment Info</b>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div>
+                                                                                            <ul class="list-unstyled  spaced">
+                                                                                                <li>
+                                                                                                    <i class="ace-icon fa fa-caret-right green"></i>@item.DptName
+                                                                                                </li>
+
+                                                                                                <li>
+                                                                                                    <i class="ace-icon fa fa-caret-right green"></i>@item.RequestedBy
+                                                                                                </li>
+
+                                                                                                <li>
+                                                                                                    <i class="ace-icon fa fa-caret-right blue"></i>
+                                                                                                    Quantity:
+                                                                                                    <b class="red">@item.Quantity</b>
+                                                                                                </li>
+
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div><!-- /.col -->
+                                                                                </div><!-- /.row -->
+
+                                                                                <div class="space"></div>
+
+                                                                                <div>
+                                                                                    <table class="table table-striped table-bordered">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th class="center">#</th>
+                                                                                                <th>Allocation</th>
+                                                                                                <th class="hidden-xs">Description</th>
+                                                                                                <th class="hidden-480">Attachment</th>
+                                                                                                <th class="hidden-480">Qouted</th>
+                                                                                                <th class="hidden-480">Discount</th>
+                                                                                                <th class="hidden-480">Actual</th>
+
+                                                                                            </tr>
+                                                                                        </thead>
+
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="center"> @i</td>
+
+                                                                                                <td>
+                                                                                                    <a href="#">@item.Allocation</a>
+                                                                                                </td>
+                                                                                                <td class="hidden-xs">
+                                                                                                    @item.Description
+                                                                                                </td>
+                                                                                                <td class="hidden-480">
+                                                                                                    @if (!String.IsNullOrEmpty(item.DocumentUrl))
+                                                                                                    {
+                                                                                                        <a href="~/Invoicing/download/@item.InvoiceId" class="btn btn-success"> <i class="fa fa-download"></i></a>
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        <span> No file uploaded</span>
+                                                                                                    }
+                                                                                                </td>
+                                                                                                <td>@item.QuotedAmount</td>
+                                                                                                <td>@item.Discount</td>
+                                                                                                <td>@item.ActualAmount</td>
+                                                                                            </tr>
+
+
+                                                                                        </tbody>
+                                                                                    </table>
                                                                                 </div>
 
-                                                                            </div>
+                                                                                <div class="hr hr8 hr-double hr-dotted"></div>
 
-                                                                            <div class="space-6"></div>
-                                                                            @*<div class="well">
-                                                                                    Thank you for choosing Ace Company products.
-                                                                                    We believe you will be satisfied by our services.
-                                                                                </div>*@
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-5 pull-right">
+                                                                                        <h4 class="pull-right">
+                                                                                            Total amount :
+                                                                                            <span class="red">@item.ActualAmount</span>
+                                                                                        </h4>
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                                <div class="space-6"></div>
+                                                                                @*<div class="well">
+                                                                                        Thank you for choosing Ace Company products.
+                                                                                        We believe you will be satisfied by our services.
+                                                                                    </div>*@
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            }
-                                                        </div>
+                                                                }
+                                                            </div>
 
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+
         </div>
-
     </div>
-</div>
 
+}
+@section scripts{
+    @Scripts.Render("~/assets2/js/jquery-ui.custom.min.js")
+    @Scripts.Render("~/assets2/js/jquery.ui.touch-punch.min.js")
+    @Scripts.Render("~/assets2/js/bootstrap-tag.min.js")
+    @Scripts.Render("~/assets2/js/autosize.min.js")
+
+    <script>
+        //chosen plugin inside a modal will have a zero width because the select element is originally hidden
+        //and its width cannot be determined.
+        //so we set the width after modal is show
+        $('#modal-form').on('shown.bs.modal', function () {
+            if (!ace.vars['touch']) {
+                $(this).find('.chosen-container').each(function () {
+                    $(this).find('a:first-child').css('width', '210px');
+                    $(this).find('.chosen-drop').css('width', '210px');
+                    $(this).find('.chosen-search input').css('width', '200px');
+                });
+            }
+        })
+        /**
+        //or you can activate the chosen plugin after modal is shown
+        //this way select element becomes visible with dimensions and chosen works as expected
+        $('#modal-form').on('shown', function () {
+            $(this).find('.modal-chosen').chosen();
+        })
+        */
+
+        var tag_input = $('#form-field-tags');
+        try {
+            tag_input.tag(
+                {
+                    placeholder: tag_input.attr('placeholder'),
+                    //enable typeahead by specifying the source array
+                    source: ace.vars['US_STATES'],//defined in ace.js >> ace.enable_search_ahead
+                    /**
+                    //or fetch data from database, fetch those that match "query"
+                    source: function(query, process) {
+                      $.ajax({url: 'remote_source.php?q='+encodeURIComponent(query)})
+                      .done(function(result_items){
+                        process(result_items);
+                      });
+                    }
+                    */
+                }
+            )
+
+            //programmatically add/remove a tag
+            var $tag_obj = $('#form-field-tags').data('tag');
+            $tag_obj.add('Programmatically Added');
+
+            var index = $tag_obj.inValues('some tag');
+            $tag_obj.remove(index);
+        }
+        catch (e) {
+            //display a textarea for old IE, because it doesn't support this plugin or another one I tried!
+            tag_input.after('<textarea id="' + tag_input.attr('id') + '" name="' + tag_input.attr('name') + '" rows="3">' + tag_input.val() + '</textarea>').remove();
+            //autosize($('#form-field-tags'));
+        }
+
+        $('[data-rel=tooltip]').tooltip({ container: 'body' });
+        $('[data-rel=popover]').popover({ container: 'body' });
+
+        autosize($('textarea[class*=autosize]'));
+
+        $('textarea.limited').inputlimiter({
+            remText: '%n character%s remaining...',
+            limitText: 'max allowed : %n.'
+        });
+
+    </script>
 }

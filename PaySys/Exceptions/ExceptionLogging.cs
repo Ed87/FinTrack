@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace PaySys.Exceptions
 {
@@ -22,9 +19,10 @@ namespace PaySys.Exceptions
 
             try
             {
-            
-                string realPath = @"C:\Users\tshumae.FBC\Documents\";
-                string appLog = "SSPS_Exceptions_";
+
+              
+                string realPath = @"C:\FINTRACK";
+                string appLog = "FinTrackExceptions";
 
                 var logPath = realPath + Convert.ToString(appLog) + DateTime.Today.ToString("dd -MM-yy") + ".txt";
                 if (!File.Exists(logPath))

@@ -98,13 +98,14 @@
             <h4 class="box-title">Create Invoice</h4>
             <div class="hr hr-16 hr-dotted"></div>
             <div class="text-success">@ViewBag.SuccessMessage</div>
-            <div class="error">@ViewBag.ErrorMessage</div>
+            <div class="red"><strong>@ViewBag.ErrorMessage</strong></div>
             <div class="row">
                 <div class="col-xs-12">
                     <div>
                         <div class="user-profile row">
                             <div class="col-sm-offset-1 col-sm-8">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                              
                                 <div>
                                     <div class="tabbable">
                                         <div class="tab-content profile-edit-tab-content">
@@ -162,17 +163,17 @@
                                                                 </div>
                                                             </div>
                                                             @*<div id="dpts" style="display:none">*@
-                                                                <div class="space-4"></div>
-                                                                <div class="form-group">
-                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Department</label>
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Department</label>
 
-                                                                    <div class="col-sm-9">
-                                                                        <span class="input-icon">
-                                                                            @Html.DropDownListFor(m => m.DepartmentId, Model.Departments, "", htmlAttributes: new { @class = "form-control" })
-                                                                            @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
-                                                                        </span>
-                                                                    </div>
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.DropDownListFor(m => m.DepartmentId, Model.Departments, "", htmlAttributes: new { @class = "form-control" })
+                                                                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                                                                    </span>
                                                                 </div>
+                                                            </div>
                                                             @*</div>*@
                                                             <div class="space-4"></div>
                                                             <div class="form-group">
@@ -188,13 +189,13 @@
                                                             </div>
                                                             <div class="space-4"></div>
                                                             <div class="form-group">
-                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Payment Type</label>
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Date</label>
 
                                                                 <div class="col-sm-9">
                                                                     <span class="input-icon">
-                                                                        @Html.DropDownListFor(m => m.PaymentTypeId, Model.PaymentTypes, "Select Payment Method", htmlAttributes: new { @class = "form-control" })
-                                                                        @Html.ValidationMessageFor(model => model.PaymentTypeId, "", new { @class = "text-danger" })
+                                                                        @Html.EditorFor(m => m.CreatedOn, new { htmlAttributes = new { @class = "input-medium date-picker" } })
 
+                                                                        @Html.ValidationMessageFor(model => model.CreatedOn, "", new { @class = "text-danger" })
                                                                     </span>
                                                                 </div>
                                                             </div>
@@ -206,10 +207,29 @@
 
                                                                 <div class="col-sm-9">
                                                                     <span class="input-icon">
-                                                                        @Html.EditorFor(model => model.QuotedAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                                                        @Html.EditorFor(model => model.QuotedAmount, new { htmlAttributes = new { @class = "form-control", @min = "1" } })
                                                                         @Html.ValidationMessageFor(model => model.QuotedAmount, "", new { @class = "text-danger" })
                                                                     </span>
                                                                 </div>
+                                                            </div>
+                                                            <div class="space-4"></div>
+                                                            @*</div>*@
+
+                                                            <div class="form-group">
+                                                                
+                                                               
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Quoted Invoice</label>
+                                                                    @*<input type="file" class="multiple" name="files" multiple />
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Actual Invoice</label>
+                                                                    <input type="file"  name="files" /><br />*@
+                                                                   
+                                                               
+                                                                <div class="col-md-5">
+            @Html.EditorFor(model => model.PostedFile, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
+            @Html.ValidationMessageFor(model => model.PostedFile, "", new { @class = "text-danger" })
+        </div>
                                                             </div>
                                                             <div class="space-4"></div>
                                                             <div class="form-group">
@@ -217,11 +237,12 @@
 
                                                                 <div class="col-sm-9">
                                                                     <span class="input-icon">
-                                                                        @Html.EditorFor(model => model.ActualAmount, new { htmlAttributes = new { @class = "form-control" } })
+                                                                        @Html.EditorFor(model => model.ActualAmount, new { htmlAttributes = new { @class = "form-control", @min = "1" } })
                                                                         @Html.ValidationMessageFor(model => model.ActualAmount, "", new { @class = "text-danger" })
                                                                     </span>
                                                                 </div>
                                                             </div>
+                                                       
                                                             <div class="space-4"></div>
                                                             <div class="form-group">
                                                                 <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Currency</label>
@@ -244,16 +265,7 @@
                                                                     </span>
                                                                 </div>
                                                             </div>
-                                                            <div class="space-4"></div>
-                                                            @*</div>*@
 
-                                                            <div class="form-group">
-                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Attachment</label>
-                                                                <div class="col-md-5">
-                                                                    @Html.EditorFor(model => model.PostedFile, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
-                                                                    @Html.ValidationMessageFor(model => model.PostedFile, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
 
                                                         </div>
 

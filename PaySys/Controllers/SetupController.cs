@@ -7,7 +7,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.DirectoryServices;
+using System.DirectoryServices.AccountManagement;
+using System.Security.Permissions;
 using PaySys.Exceptions;
+using PaySys.Models.User;
 
 namespace PaySys.Controllers
 {
@@ -72,9 +76,86 @@ namespace PaySys.Controllers
 
 
 
+        public static string GetProperty(SearchResult searchResult,
+               string PropertyName)
+        {
+            if (searchResult.Properties.Contains(PropertyName))
+            {
+                return searchResult.Properties[PropertyName][0].ToString();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
 
 
+        public ActionResult CreateADUsers()
+        {
+            LoginViewModel login = new LoginViewModel();
+            login.Username = Convert.ToString(Session["Username"]);
+            try
+            {
+                DirectoryEntry entry = new DirectoryEntry("LDAP://10.170.8.20:389/OU=FBC,DC=fbc,DC=corp");
+                DirectoryEntry ldapConnection = new DirectoryEntry("FBC.CORP");
+                ldapConnection.Path = "LDAP://";
+                ldapConnection.Username = "Nyakudyap";// "Mashingat";
+                ldapConnection.Password = "legend45*";//"password1*"
+                ldapConnection.AuthenticationType = AuthenticationTypes.Secure;
+                DirectorySearcher adSearch = new DirectorySearcher(entry);
 
+                // Get the currently logged in user
+                string name = Environment.UserName;
+
+                adSearch.Filter = "(&(objectClass=user)(l=" + name + "))";
+
+                foreach (SearchResult singleADUser in adSearch.FindAll())
+                {
+                    string employeeTitle = GetProperty(singleADUser, "title");
+                    string empDisplayName = GetProperty(singleADUser, "cn"); //or displayname
+                    string empUnit = GetProperty(singleADUser, "company");
+                    string empInitials = GetProperty(singleADUser, "initials");
+                    string empName = GetProperty(singleADUser, "givenName");
+                    string empSurname = GetProperty(singleADUser, "sn");
+
+                    string userInfo = empDisplayName + "" + employeeTitle;
+                    using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
+                    {
+                        var act = 1;
+                        SqlCommand cmd = new SqlCommand("CreateADUser", conn);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserInfo", userInfo);
+                        cmd.Parameters.AddWithValue("@UserName", empName);
+                        cmd.Parameters.AddWithValue("@Surname", empSurname);
+                        cmd.Parameters.AddWithValue("@UserTitle", employeeTitle);
+                        cmd.Parameters.AddWithValue("@DisplayName", empDisplayName);
+                        cmd.Parameters.AddWithValue("@CreatedBy", login.Username);
+                        cmd.Parameters.AddWithValue("@CreatedOn", DateTime.Now);
+                       cmd.Parameters.AddWithValue("@Active", act);
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    //foreach (string singleAttribute in ((ResultPropertyCollection)singleADUser.Properties).PropertyNames)
+                    //{
+                    //    Console.WriteLine(singleAttribute + " = ");
+                    //    foreach (Object singleValue in ((ResultPropertyCollection)singleADUser.Properties)[singleAttribute])
+                    //    {
+                    //        Console.WriteLine("\t" + singleValue);
+                    //    }
+                    //}
+
+                }
+                return View("Index");
+               
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+               // ViewBag.ErrorMessage = Helpers.Helpers.Messages.GENERAL_ERROR;
+                return View();
+            }
+          
+        }
 
 
         public ActionResult AddVendor()
@@ -90,7 +171,7 @@ namespace PaySys.Controllers
             Invoice invoice = new Invoice();
             invoice.Active = Convert.ToInt32(formcollection["Active"]);
             invoice.VendorName = Convert.ToString(formcollection["VendorName"]);
-           
+
             try
             {
                 invoice.RequestedBy = usrname.ToString();
@@ -113,9 +194,9 @@ namespace PaySys.Controllers
 
                     using (SqlConnection connn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
                     {
-                        string ent = "SERVICE";
+                        string ent = "VENDOR";
                         var create = Helpers.Helpers.parameters.CreateAction.ToString();
-                        
+
                         var username = Session["Username"].ToString();
 
                         invoice.Action = create;
@@ -149,10 +230,5 @@ namespace PaySys.Controllers
             }
 
         }
-
-
-
-
-
     }
 }

@@ -1,15 +1,14 @@
-﻿using PaySys.Models;
+﻿using PaySys.Exceptions;
+using PaySys.Helpers;
+using PaySys.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using PaySys.Helpers;
-using System.IO;
 using static PaySys.Helpers.Helpers;
-using PaySys.Exceptions;
 
 namespace PaySys.Controllers
 {
@@ -23,7 +22,7 @@ namespace PaySys.Controllers
             {
                 using (SqlConnection conn = new SqlConnection(DatabaseConnect))
                 {
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM Invoices ORDER BY InvoiceId", conn);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Invoices WHERE Active="+ Convert.ToInt32(Helpers.Helpers.parameters.IsAct) +"", conn);
 
                     conn.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
@@ -79,9 +78,31 @@ namespace PaySys.Controllers
             return View(parameters);
         }
 
+        [HttpGet]
+        public ActionResult ViewInvoices()
+        {
+            Invoice invoice = new Invoice();
+
+            return View(invoice);
+        }
 
 
-        public ActionResult AddVendor()
+        //GET VERSION
+        public ActionResult AddInvoice()
+        {
+            Invoice invoice = new Invoice();
+
+            return View(invoice);
+        }
+        //POST VERSION
+        [HttpPost]
+        public ActionResult AddInvoice(Models.Invoice invoice)
+        {
+            return View();
+        }
+
+
+            public ActionResult AddVendor()
         {
             Invoice invoice = new Invoice();
 
@@ -91,16 +112,7 @@ namespace PaySys.Controllers
         [HttpPost]
         public ActionResult AddVendor(Models.Invoice invoice)
         {
-            //Invoice invoice = new Invoice();
-            // invoice.Active = Convert.ToInt32(formcollection["Active"]);
-            // invoice.VendorName = Convert.ToString(formcollection["VendorName"]);
-            //if (!ModelState.IsValid)
-            //{
-            //    //bank.Banks = PopulateBank();
-            //    //bank.SortCodes = PopulateSortCode();
-            //    //bank.AccountTypes = PopulateAccountType();
-            //    return View(invoice);
-            //}
+           
             try
             {
                 string usernme = "Edtshuma";
@@ -131,14 +143,6 @@ namespace PaySys.Controllers
             }
            
         }
-
-
-
-
-
-
-
-
 
 
         [HttpGet]
@@ -189,8 +193,6 @@ namespace PaySys.Controllers
             }
         }
 
-
-
         public ActionResult PurchaseDetails(int id)
         {
             List<Invoice> parameters = new List<Invoice>();
@@ -222,7 +224,8 @@ namespace PaySys.Controllers
                         invoice.QuotedAmount = Convert.ToDouble(dr["QuotedAmount"]);
                         invoice.ActualAmount = Convert.ToDouble(dr["ActualAmount"]);
                         invoice.Discount = Convert.ToDouble(dr["Discount"]);
-                        
+                        invoice.RequestedBy = Convert.ToString(dr["CreatedBy"]);
+                        invoice.DepartmentId = Convert.ToInt32(dr["DepartmentId"]);
 
                         using (SqlConnection conn1 = new SqlConnection(DatabaseConnect))
                         {
@@ -249,6 +252,18 @@ namespace PaySys.Controllers
                             conn1.Close();
                         }
 
+
+                        using (SqlConnection conn1 = new SqlConnection(DatabaseConnect))
+                        {
+                            SqlCommand cmd1 = new SqlCommand("SELECT DepartmentName FROM Departments WHERE DepartmentId= '" + Convert.ToInt32(invoice.DepartmentId) + "'", conn1);
+                            conn1.Open();
+                            SqlDataReader dr1 = cmd1.ExecuteReader();
+                            if (dr1.Read())
+                            {
+                                invoice.DptName = Convert.ToString(dr1["DepartmentName"]);
+                            }
+                            conn1.Close();
+                        }
                         using (SqlConnection conn1 = new SqlConnection(DatabaseConnect))
                         {
                             SqlCommand cmd1 = new SqlCommand("SELECT VendorName FROM Vendors WHERE VendorId= '" + Convert.ToInt32(invoice.VendorId) + "'", conn1);
@@ -514,7 +529,7 @@ namespace PaySys.Controllers
             return Json(items, JsonRequestBehavior.AllowGet);
         }
 
-
+       
         // GET: Invoicing/Create
         public ActionResult Create()
         {
@@ -523,8 +538,7 @@ namespace PaySys.Controllers
             invoice.Services = PopulateServices();
             invoice.Units = PopulateUnits();
             invoice.Vendors = PopulateVendors();
-            invoice.Expenses = PopulateExpenses();
-            invoice.PaymentTypes = PopulatePaymentTypes();
+            invoice.Expenses = PopulateExpenses();           
             invoice.Departments = PopulateDeparments();
             return View(invoice);
         }
@@ -532,26 +546,29 @@ namespace PaySys.Controllers
         // POST: Invoicing/Create
         [HttpPost]
         public ActionResult Create(HttpPostedFileBase PostedFile, FormCollection formcollection)
-        {         
+        {
 
             Invoice invoice = new Invoice();
             invoice.Currencies = PopulateCurrencies();
             invoice.Services = PopulateServices();
             invoice.Units = PopulateUnits();
             invoice.Vendors = PopulateVendors();
-            invoice.Expenses = PopulateExpenses();
-            invoice.PaymentTypes = PopulatePaymentTypes();
+            invoice.Expenses = PopulateExpenses();          
             invoice.Departments = PopulateDeparments();
 
             try
             {
-               
-                invoice.StatusId = Convert.ToInt32(parameters.fresh);
-                invoice.RequestedBy = Convert.ToString(Session["Username"]);               
-                invoice.CreatedOn = DateTime.Now;
+                DateTime CurrentDate = DateTime.Now;
+                invoice.StatusId = Convert.ToInt32(parameters.recommended);
+                invoice.RequestedBy = Convert.ToString(Session["Username"]);
+                invoice.CreatedOn = Convert.ToDateTime(formcollection["CreatedOn"]);
+                DateTime PaymentDate = invoice.CreatedOn;
+                int iQuarter = DateTime.Now.GetQuarter();
+                var quarterName = "Q" + "" + iQuarter;
                 int Status = 1;
+                int Active = 2;
 
-                invoice.AllocationId= Convert.ToInt32(formcollection["AllocationId"]);
+                invoice.AllocationId = Convert.ToInt32(formcollection["AllocationId"]);
                 invoice.UnitId = Convert.ToInt32(formcollection["UnitId"]);
                 invoice.VendorId = Convert.ToInt32(formcollection["VendorId"]);
                 invoice.CurrencyId = Convert.ToInt32(formcollection["CurrencyId"]);
@@ -563,152 +580,194 @@ namespace PaySys.Controllers
                 invoice.ActualAmount = Convert.ToDouble(formcollection["ActualAmount"]);
                 invoice.Description = Convert.ToString(formcollection["Description"]);
 
+                string year = "4";
+                DateTime sMonth = invoice.CreatedOn;
+                int mnthNumber = sMonth.Month;
 
-                if (Convert.ToString(formcollection["CurrencyId"]) != null && Convert.ToString(formcollection["VendorId"]) != null && Convert.ToString(formcollection["AllocationId"]) != null && Convert.ToString(formcollection["UnitId"]) != null && Convert.ToString(formcollection["PaymentTypeId"]) != null && Convert.ToString(formcollection["ExpId"]) != null)
+                if (PostedFile != null && PostedFile.ContentLength > 0)
                 {
 
-                    string FileExt = Path.GetExtension(PostedFile.FileName).ToUpper();
-
-                    //if (FileExt == ".PDF" || FileExt == ".DOCX" && FileExt == ".TXT" || FileExt == ".EML" && FileExt == ".JPEG" || FileExt == ".JPG")
-                    //{
-                        var fileName = String.Format("{1}{2}{0}", Path.GetFileName(PostedFile.FileName), invoice.RequestedBy, DateTime.Now.ToString("yyyyMMddHHmmss_"));
-                        var path = "";
-                        path = Path.Combine(Server.MapPath("~/Uploads/InvoiceAttachments/"), fileName);
-                        PostedFile.SaveAs(path);
-
-
-
-                    if (invoice.ActualAmount < invoice.QuotedAmount)
+                    if (Convert.ToString(formcollection["CurrencyId"]) != null && Convert.ToString(formcollection["VendorId"]) != null && Convert.ToString(formcollection["AllocationId"]) != null && Convert.ToString(formcollection["UnitId"]) != null && Convert.ToString(formcollection["ExpId"]) != null)
                     {
-                        invoice.Discount = invoice.QuotedAmount - invoice.ActualAmount;
+
+
+                        if (Convert.ToString(formcollection["CreatedOn"]) != null)
+                        {
+
+                            if (PaymentDate > CurrentDate)
+                            {
+                     
+                                    ViewBag.ErrorMessage = "Payment Date cannot be in the future";
+                                    return View(invoice);         
+                            }
+                            string FileExt = Path.GetExtension(PostedFile.FileName).ToUpper();
+
+                            if (FileExt == ".PDF" || FileExt == ".DOCX" && FileExt == ".TXT" || FileExt == ".EML" && FileExt == ".JPEG" || FileExt == ".JPG")
+                            {
+
+                                var fileName = String.Format("{1}{2}{0}", Path.GetFileName(PostedFile.FileName), invoice.RequestedBy, DateTime.Now.ToString("yyyyMMddHHmmss_"));
+                                // var fileName2 = String.Format("{1}{2}{0}", Path.GetFileName(PostedFile.[0].FileName), invoice.RequestedBy, DateTime.Now.ToString("yyyyMMddHHmmss_"));
+                                var path = "";
+                                path = Path.Combine(Server.MapPath("~/Uploads/InvoiceAttachments/"), fileName);
+                                PostedFile.SaveAs(path);
+
+                                if (invoice.ActualAmount < invoice.QuotedAmount)
+                                {
+                                    invoice.Discount = invoice.QuotedAmount - invoice.ActualAmount;
+                                }
+                                else if (invoice.ActualAmount >= invoice.QuotedAmount)
+                                {
+                                    invoice.Discount = 0.00;
+                                }
+
+                                using (SqlConnection conn = new SqlConnection(DatabaseConnect))
+                                {
+
+                                    SqlCommand cmd = new SqlCommand("CreateInvoice", conn);
+                                    cmd.CommandType = CommandType.StoredProcedure;
+
+
+                                    if (Convert.ToInt32(invoice.ExpId) == parameters.fresh)
+                                    {
+                                        conn.Open();
+                                        SqlCommand cmdd = new SqlCommand("GetHighestCAPCode", conn);
+                                        cmdd.CommandType = CommandType.StoredProcedure;
+                                        SqlParameter param = new SqlParameter("@returnValue", SqlDbType.Int);
+                                        cmdd.Parameters.Add("@returnValue", SqlDbType.Int).Direction = ParameterDirection.Output;
+                                        cmdd.ExecuteNonQuery();
+                                        int Counter = Convert.ToInt32(cmdd.Parameters["@returnValue"].Value);
+                                        int newCode = Counter + 1;
+                                        conn.Close();
+                                        int x = newCode++;
+                                        var capex = "CAP" + x.ToString("000000");
+                                        invoice.Reference = capex;
+                                        cmd.Parameters.AddWithValue("@Reference", invoice.Reference);
+                                    }
+                                    else if (Convert.ToInt32(invoice.ExpId) == parameters.recommended)
+                                    {
+                                        conn.Open();
+                                        SqlCommand cmdd = new SqlCommand("GetHighestOPCode", conn);
+                                        cmdd.CommandType = CommandType.StoredProcedure;
+                                        SqlParameter param = new SqlParameter("@returnValue", SqlDbType.Int);
+                                        cmdd.Parameters.Add("@returnValue", SqlDbType.Int).Direction = ParameterDirection.Output;
+                                        cmdd.ExecuteNonQuery();
+                                        int Counter = Convert.ToInt32(cmdd.Parameters["@returnValue"].Value);
+                                        int newCode = Counter + 1;
+                                        conn.Close();
+                                        int x = newCode++;
+                                        var opex = "OPE" + x.ToString("000000");
+                                        invoice.Reference = opex;
+                                        cmd.Parameters.AddWithValue("@Reference", invoice.Reference);
+                                    }
+
+                                    cmd.Parameters.AddWithValue("@FileName", Path.GetFileName(PostedFile.FileName));
+                                    cmd.Parameters.AddWithValue("@AllocationId", invoice.AllocationId);
+                                    cmd.Parameters.AddWithValue("@VendorId", invoice.VendorId);
+                                    cmd.Parameters.AddWithValue("@UnitId", invoice.UnitId);
+                                    cmd.Parameters.AddWithValue("@CurrencyId", invoice.CurrencyId);
+                                    cmd.Parameters.AddWithValue("@ExpId", invoice.ExpId);
+                                    cmd.Parameters.AddWithValue("@DepartmentId", invoice.DepartmentId);
+                                    cmd.Parameters.AddWithValue("@QuotedAmount", invoice.QuotedAmount);
+                                    cmd.Parameters.AddWithValue("@ActualAmount", invoice.ActualAmount);
+                                    cmd.Parameters.AddWithValue("Quantity", invoice.Quantity);
+                                    cmd.Parameters.AddWithValue("@CreatedBy", invoice.RequestedBy);
+                                    cmd.Parameters.AddWithValue("@CreatedOn", invoice.CreatedOn);
+                                    cmd.Parameters.AddWithValue("@DocumentUrl", path);
+                                    cmd.Parameters.AddWithValue("@MonthId", mnthNumber);
+                                    cmd.Parameters.AddWithValue("@YearId", year.ToString());
+                                    cmd.Parameters.AddWithValue("@Discount", invoice.Discount);
+                                    cmd.Parameters.AddWithValue("@QuarterId", iQuarter);
+                                    cmd.Parameters.AddWithValue("@QuarterName", quarterName);
+                                    cmd.Parameters.AddWithValue("@Status", Status);
+                                    cmd.Parameters.AddWithValue("@Active", Active);
+                                    cmd.Parameters.AddWithValue("@Description", invoice.Description);
+                                    conn.Open();
+                                    cmd.ExecuteNonQuery();
+
+
+                                    using (SqlConnection connn = new SqlConnection(DatabaseConnect))
+                                    {
+                                        string ent = "INVOICE";
+                                        var create = parameters.CreateAction.ToString();
+                                        var username = Session["Username"].ToString();
+                                        invoice.Action = create;
+                                        invoice.Username = username;
+                                        invoice.Entity = ent.ToString();
+
+                                        SqlCommand cmdd = new SqlCommand("CreateTrail", connn);
+                                        cmdd.CommandType = CommandType.StoredProcedure;
+
+                                        cmdd.Parameters.AddWithValue("@Action", invoice.Action);
+                                        cmdd.Parameters.AddWithValue("@CreatedBy", invoice.RequestedBy);
+                                        cmdd.Parameters.AddWithValue("@CreatedOn", DateTime.Now);
+                                        cmdd.Parameters.AddWithValue("@Entity", invoice.Entity);
+                                        cmdd.Parameters.AddWithValue("@Username", invoice.Username);
+                                        connn.Open();
+                                        cmdd.ExecuteNonQuery();
+                                        connn.Close();
+                                    }
+                                }
+
+                                ViewBag.SuccessMessage = Messages.OPERATION_COMPLETED_SUCCESSFULLY;
+                                return RedirectToAction("Index");
+
+                            }
+
+                            else
+                            {
+                                ViewBag.ErrorMessage = "Transaction Error  ! Invalid file format";
+                                return View(invoice);
+                            }
+
+                            //}
+
+                            //else
+                            //{
+                            //    ViewBag.ErrorMessage = "Transaction Error ! Payment date cannot be in the future";
+                            //    return View(invoice);
+                            //}
+
+                        }
+                        else
+                        {
+                            ViewBag.ErrorMessage = "Transaction Error ! Payment date missing";
+                            return View(invoice);
+                        }
+
+
                     }
-                    else if (invoice.ActualAmount >= invoice.QuotedAmount)
+                    else
                     {
-                        invoice.Discount = 0.00;
+                        ViewBag.ErrorMessage = "Transaction Error ! Please select all input parameters";
+                        return View(invoice);
                     }
-
-                    using (SqlConnection conn = new SqlConnection(DatabaseConnect))
-                        {
-
-                            SqlCommand cmd = new SqlCommand("CreateInvoice", conn);
-                            cmd.CommandType = CommandType.StoredProcedure;
-
-
-                        if (Convert.ToInt32(invoice.ExpId) == parameters.fresh)
-                        {
-                            conn.Open();
-                            SqlCommand cmdd = new SqlCommand("GetHighestCAPCode", conn);
-                            cmdd.CommandType = CommandType.StoredProcedure;
-                            SqlParameter param = new SqlParameter("@returnValue", SqlDbType.Int);
-                            cmdd.Parameters.Add("@returnValue", SqlDbType.Int).Direction = ParameterDirection.Output;
-                            cmdd.ExecuteNonQuery();
-                            int Counter = Convert.ToInt32(cmdd.Parameters["@returnValue"].Value);
-                            int newCode = Counter + 1;
-                            conn.Close();
-                            int x = newCode++;                           
-                            var capex = "CAP" + x.ToString("000000");
-                            invoice.Reference = capex;
-                            cmd.Parameters.AddWithValue("@Reference", invoice.Reference);
-                        }
-                        else if (Convert.ToInt32(invoice.ExpId) == parameters.recommended)
-                        {
-                            conn.Open();
-                            SqlCommand cmdd = new SqlCommand("GetHighestOPCode", conn);
-                            cmdd.CommandType = CommandType.StoredProcedure;
-                            SqlParameter param = new SqlParameter("@returnValue", SqlDbType.Int);
-                            cmdd.Parameters.Add("@returnValue", SqlDbType.Int).Direction = ParameterDirection.Output;
-                            cmdd.ExecuteNonQuery();
-                            int Counter = Convert.ToInt32(cmdd.Parameters["@returnValue"].Value);
-                            int newCode = Counter + 1;
-                            conn.Close();
-                            int x = newCode++;                           
-                            var opex = "OPE" + x.ToString("000000");                           
-                            invoice.Reference = opex;
-                            cmd.Parameters.AddWithValue("@Reference", invoice.Reference);
-                        }
-
-                            cmd.Parameters.AddWithValue("@FileName", Path.GetFileName(PostedFile.FileName));
-                            cmd.Parameters.AddWithValue("@AllocationId", invoice.AllocationId);
-                            cmd.Parameters.AddWithValue("@VendorId", invoice.VendorId);
-                            cmd.Parameters.AddWithValue("@UnitId", invoice.UnitId);
-                            cmd.Parameters.AddWithValue("@CurrencyId", invoice.CurrencyId);
-                            cmd.Parameters.AddWithValue("@ExpId", invoice.ExpId);
-                            cmd.Parameters.AddWithValue("@DepartmentId", invoice.DepartmentId);
-                            cmd.Parameters.AddWithValue("@QuotedAmount", invoice.QuotedAmount);
-                            cmd.Parameters.AddWithValue("@ActualAmount", invoice.ActualAmount);
-                            cmd.Parameters.AddWithValue("Quantity", invoice.Quantity);
-                            cmd.Parameters.AddWithValue("@CreatedBy", invoice.RequestedBy);
-                            cmd.Parameters.AddWithValue("@CreatedOn", invoice.CreatedOn);
-                            cmd.Parameters.AddWithValue("@DocumentUrl", path);
-                            //cmd.Parameters.AddWithValue("@DocumentUrl2", path);
-                            cmd.Parameters.AddWithValue("@PaymentTypeId", invoice.PaymentTypeId);
-                            cmd.Parameters.AddWithValue("@Discount", invoice.Discount);
-                            
-                            cmd.Parameters.AddWithValue("@Status", Status);
-                            cmd.Parameters.AddWithValue("@Description", invoice.Description);
-                            conn.Open();
-                            cmd.ExecuteNonQuery();
-
-
-                        using (SqlConnection connn = new SqlConnection(DatabaseConnect))
-                        {
-                            string ent = "INVOICE";
-                            var create = parameters.CreateAction.ToString();
-                            var username = Session["Username"].ToString();
-                            invoice.Action = create;
-                            invoice.Username = username;
-                            invoice.Entity = ent.ToString();
-
-                            SqlCommand cmdd = new SqlCommand("CreateTrail", connn);
-                            cmdd.CommandType = CommandType.StoredProcedure;
-
-                            cmdd.Parameters.AddWithValue("@Action", invoice.Action);
-                            cmdd.Parameters.AddWithValue("@CreatedBy", invoice.RequestedBy);
-                            cmdd.Parameters.AddWithValue("@CreatedOn", DateTime.Now);
-                            cmdd.Parameters.AddWithValue("@Entity", invoice.Entity);
-                            cmdd.Parameters.AddWithValue("@Username", invoice.Username);
-                            connn.Open();
-                            cmdd.ExecuteNonQuery();
-                            connn.Close();
-                        }
-                    }
-
-                        ViewBag.SuccessMessage = Messages.OPERATION_COMPLETED_SUCCESSFULLY;
-                        return RedirectToAction("Index");
-
-
-                    //}
-
-                    //else
-                    //{
-                    //    ViewBag.ErrorMessage = "Invalid file format!";
-                    //    return View(invoice);
-                    //}
 
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Missing input !";
-                   
+                    ViewBag.ErrorMessage = "Transaction Error ! Missing file attachment";
                     return View(invoice);
                 }
-
             }
+
+
             catch (Exception ex)
             {
                 ExceptionLogging.SendErrorToText(ex);
-                //Invoice invoicee = new Invoice();
                 invoice.Currencies = PopulateCurrencies();
                 invoice.Services = PopulateServices();
                 invoice.Units = PopulateUnits();
                 invoice.Vendors = PopulateVendors();
                 invoice.Expenses = PopulateExpenses();
-                invoice.PaymentTypes = PopulatePaymentTypes();
+            
                 invoice.Departments = PopulateDeparments();
                 return View(invoice);
             }
-          
+
         }
+
+
+
 
         // GET: Invoicing/Edit/5
         public ActionResult UpdateInvoice(int id)
@@ -836,7 +895,7 @@ namespace PaySys.Controllers
        
       
 
- [HttpGet]
+        [HttpGet]
         public ActionResult UpdateVendor(int id)
         {
             Invoice invoice = new Invoice();
@@ -852,7 +911,7 @@ namespace PaySys.Controllers
                     {
 
                         invoice.VendorId = Convert.ToInt32(dr["VendorId"]);
-                        invoice.Allocation = Convert.ToString(dr["VendorName"]);
+                        invoice.VendorName = Convert.ToString(dr["VendorName"]);
                         invoice.Active = Convert.ToInt32(dr["Active"]);
                     }
 
@@ -875,7 +934,7 @@ namespace PaySys.Controllers
             try
             {
                 invoice.VendorId = Convert.ToInt32(formcollection["VendorId"]);
-                invoice.Vendor = Helpers.Helpers.SanitiseInput(Convert.ToString(formcollection["VendorName"]));
+                invoice.VendorName = Convert.ToString(formcollection["VendorName"]);
                 invoice.Active = Convert.ToInt32(formcollection["Active"]);
                 invoice.ModifiedBy = Convert.ToString(Session["UserId"]);
                 invoice.ModifiedOn = DateTime.Now;
@@ -891,7 +950,7 @@ namespace PaySys.Controllers
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.AddWithValue("@VendorId", invoice.VendorId);
-                        cmd.Parameters.AddWithValue("@VendorName", invoice.Vendor);
+                        cmd.Parameters.AddWithValue("@VendorName", invoice.VendorName);
                         cmd.Parameters.AddWithValue("@Active", invoice.Active);
                         cmd.Parameters.AddWithValue("@ModifiedBy", invoice.ModifiedBy);
                         cmd.Parameters.AddWithValue("@ModifiedOn", invoice.ModifiedOn);
@@ -950,8 +1009,8 @@ namespace PaySys.Controllers
             Invoice invoice = new Invoice();
             try
             {
-                invoice.VendorId = Convert.ToInt32(formcollection["AllocationId"]);
-                invoice.Vendor = Helpers.Helpers.SanitiseInput(Convert.ToString(formcollection["Allocation"]));
+                invoice.AllocationId = Convert.ToInt32(formcollection["AllocationId"]);
+                invoice.Allocation = Convert.ToString(formcollection["Allocation"]);
                 invoice.Active = Convert.ToInt32(formcollection["Active"]);
                 invoice.ModifiedBy = Convert.ToString(Session["UserId"]);
                 invoice.ModifiedOn = DateTime.Now;
@@ -1073,5 +1132,7 @@ namespace PaySys.Controllers
             }
             return View(parameters);
         }
+
+       
     }
 }

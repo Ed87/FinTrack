@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPageh.cshtml";
 }
-<a href="~/Views/Reports/Index.cshtml">~/Views/Reports/Index.cshtml</a>
+
 <div id="wrapper">
     <div class="main-content container">
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -108,80 +108,81 @@
                                                 <button data-action="collapse" type="button" style="display: none;">Collapse</button><button data-action="expand" type="button" style="display: block;">Expand</button>
                                                 <div class="dd-handle dd2-handle">
                                                     <i class="normal-icon ace-icon fa fa-signal orange bigger-130"></i>
-
+                                                    
                                                     <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
                                                 </div>
-                                                <div class="dd2-content">Statistics</div>
+                                                <div class="dd2-content">Reports</div>
 
                                                 <ol class="dd-list" style="display: none;">
                                                     <li class="dd-item dd2-item" data-id="16">
                                                         <div class="dd-handle dd2-handle">
-                                                            @*<i class="normal-icon ace-icon fa fa-user red bigger-130"></i>
+                                                            <i class="normal-icon ace-icon fa glyphicon-list green bigger-130"></i>
 
-                <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>*@
                                                         </div>
                                                         <div class="dd2-content">
-                                                            @Html.ActionLink(" Purchases Master", "PurchasesMaster")
+                                                            @Html.ActionLink(" Payments Master", "PurchasesMaster")
                                                         </div>
 
                                                     </li>
-
                                                     <li class="dd-item dd2-item dd-colored" data-id="17">
                                                         <div class="dd-handle dd2-handle btn-info">
-                                                            @*<i class="normal-icon ace-icon fa fa-pencil-square-o bigger-130"></i>
+                                                            <i class="normal-icon ace-icon fa fa-calendar green bigger-130"></i>
 
-                <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>*@
+                <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
                                                         </div>
                                                         <div class="dd2-content">
-                                                            @Html.ActionLink(" Purchases", "PurchasesReportByCriteria")
+                                                            @Html.ActionLink(" Payments By Date", "PurchasesByDate")
+                                                        </div>
+                                                        @*<div class="dd2-content btn-info no-hover">Published Articles</div>*@
+                                                    </li>
+                                                    <li class="dd-item dd2-item dd-colored" data-id="17">
+                                                        <div class="dd-handle dd2-handle btn-info">
+                                                            <i class="normal-icon ace-icon fa fa-search green bigger-130"></i>
+
+                <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+                                                        </div>
+                                                        <div class="dd2-content">
+                                                            @Html.ActionLink(" Payments By All Criteria", "PurchasesReportByCriteria")
                                                         </div>
                                                         @*<div class="dd2-content btn-info no-hover">Published Articles</div>*@
                                                     </li>
 
-                                                    <li class="dd-item dd2-item" data-id="18">
-                                                        <div class="dd-handle dd2-handle">
-                                                            <i class="normal-icon ace-icon fa fa-account green bigger-130"></i>
-
-                                                            <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
-                                                        </div>
-                                                        <div class="dd2-content">
-                                                            @Html.ActionLink(" GL Reports", "GReport")
-                                                        </div>
-
-                                                    </li>
-                                                    <li class="dd-item dd2-item" data-id="18">
-                                                        <div class="dd-handle dd2-handle">
+                                                    <li class="dd-item dd2-item dd-colored" data-id="17">
+                                                        <div class="dd-handle dd2-handle btn-info">
                                                             <i class="normal-icon ace-icon fa fa-calendar green bigger-130"></i>
 
-                                                            <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
                                                         </div>
                                                         <div class="dd2-content">
-                                                            @Html.ActionLink(" Periodic Reports", "PurchasesReportByPeriod")
+                                                            @Html.ActionLink(" Payments By Quarter", "PurchasesByQuarter")
                                                         </div>
-
+                                                        @*<div class="dd2-content btn-info no-hover">Published Articles</div>*@
                                                     </li>
-                                                    <li class="dd-item dd2-item" data-id="18">
-                                                        <div class="dd-handle dd2-handle">
+                                                    <li class="dd-item dd2-item dd-colored" data-id="17">
+                                                        <div class="dd-handle dd2-handle btn-info">
                                                             <i class="normal-icon ace-icon fa fa-calendar green bigger-130"></i>
 
+                                                        </div>
+                                                        <div class="dd2-content">
+                                                            @Html.ActionLink(" Payments By Month", "PurchasesByMonth")
+                                                        </div>
+                                                        @*<div class="dd2-content btn-info no-hover">Published Articles</div>*@
+                                                    </li>
+                                                   
+                                                    <li class="dd-item dd2-item" data-id="18">
+                                                        <div class="dd-handle dd2-handle">
+                                                            <i class="ui-icon-document"></i>
+
                                                             <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
                                                         </div>
                                                         <div class="dd2-content">
-                                                            @Html.ActionLink("Daily Tasks Report", "TaskReport")
+                                                            @Html.ActionLink("Memorandum ", "GenerateSingleMemo")
                                                         </div>
 
                                                     </li>
                                                 </ol>
                                             </li>
 
-                                            @*<li class="dd-item dd2-item" data-id="19">
-                <div class="dd-handle dd2-handle">
-                    <i class="normal-icon ace-icon fa fa-bars blue bigger-130"></i>
-
-                    <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
-                </div>
-                <div class="dd2-content">Menu</div>
-            </li>*@
+      
                                         </ol>
 
 
@@ -201,9 +202,9 @@
                                                 <ol class="dd-list" style="display: none;">
                                                     <li class="dd-item dd2-item" data-id="16">
                                                         <div class="dd-handle dd2-handle">
-                                                            @*<i class="normal-icon ace-icon fa fa-user red bigger-130"></i>
+                                                            <i class="normal-icon ace-icon fa fa-user red bigger-130"></i>
 
-                            <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>*@
+                                                                <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
                                                         </div>
                                                         <div class="dd2-content">
                                                             @Html.ActionLink("Audit Trail", "PurchasesMaster")
@@ -211,8 +212,8 @@
 
                                                     </li>
 
-                              
-                                        </ol>
+
+                                                </ol>
                                     </div>
                                 </div>
 
@@ -224,6 +225,7 @@
 
         </div>
     </div>
+</div>
     @section Scripts {
 
         @Scripts.Render("~/assets2/js/tree.min.js")

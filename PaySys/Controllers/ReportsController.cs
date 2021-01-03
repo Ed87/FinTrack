@@ -29,7 +29,7 @@ namespace PaySys.Controllers
         {
             List<SelectListItem> items = new List<SelectListItem>();
 
-            using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
             {
 
                 SqlCommand cmd = new SqlCommand("SELECT CurrencyId,CurrencyName FROM Currencies ORDER BY CurrencyId", conn);
@@ -55,7 +55,7 @@ namespace PaySys.Controllers
         {
             List<SelectListItem> items = new List<SelectListItem>();
 
-            using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
             {
 
                 SqlCommand cmd = new SqlCommand("SELECT VendorId,VendorName FROM Vendors ORDER BY VendorId", conn);
@@ -82,7 +82,7 @@ namespace PaySys.Controllers
         {
             List<SelectListItem> items = new List<SelectListItem>();
 
-            using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
             using (SqlCommand cmd = new SqlCommand("SELECT AllocationId, AllocationName FROM Allocations ORDER BY AllocationId", conn))
             {
 
@@ -108,7 +108,7 @@ namespace PaySys.Controllers
         {
             List<SelectListItem> items = new List<SelectListItem>();
 
-            using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
             using (SqlCommand cmd = new SqlCommand("SELECT UnitId, UnitName FROM BusinessUnits ORDER BY UnitId", conn))
             {
 
@@ -134,7 +134,7 @@ namespace PaySys.Controllers
         {
             List<SelectListItem> items = new List<SelectListItem>();
 
-            using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
             using (SqlCommand cmd = new SqlCommand("SELECT ExpId, ExpenseName FROM ExpenseTypes ORDER BY ExpId", conn))
             {
 
@@ -160,7 +160,7 @@ namespace PaySys.Controllers
         {
             List<SelectListItem> items = new List<SelectListItem>();
 
-            using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
             using (SqlCommand cmd = new SqlCommand("SELECT PaymentTypeId, PaymentName FROM PaymentTypes ORDER BY PaymentTypeId", conn))
             {
 
@@ -186,7 +186,7 @@ namespace PaySys.Controllers
         {
             List<SelectListItem> items = new List<SelectListItem>();
 
-            using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
             using (SqlCommand cmd = new SqlCommand("SELECT Flag, FlagText FROM Lookup", conn))
             {
 
@@ -212,92 +212,411 @@ namespace PaySys.Controllers
         public static List<SelectListItem> PopulateExportTypes()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-            string[] exportFormats = Enum.GetNames(typeof(CrystalDecisions.Shared.ExportFormatType));
-            //using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
-            //using (SqlCommand cmd = new SqlCommand("SELECT FormatId, FormatName FROM FormatTypes ORDER BY FormatId", conn))
-            //{
-
-            //    conn.Open();
-
-            //    using (SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
-            //    {
-            //        while (dr.Read())
-            //        {
-            //            items.Add(new SelectListItem
-            //            {
-            //                Text = Convert.ToString(dr["FormatName"]),
-            //                Value = Convert.ToString(dr["FormatId"])
-            //            });
-            //        }
-            //    }
-            //}
-
-            //return items;
-            items = exportFormats.Select((day, index) =>
+            //string[] exportFormats = Enum.GetNames(typeof(ExportFormatType));
+            //SelectList list = new SelectList(exportFormats);
+            using (SqlConnection conn = new SqlConnection(Helpers.Helpers.DatabaseConnect))
+            using (SqlCommand cmd = new SqlCommand("SELECT FormatId, FormatName FROM FormatTypes ORDER BY FormatId", conn))
             {
-                return new SelectListItem
+                conn.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                 {
-                    Text = index.ToString(),
-                    Value = day
+                    while (dr.Read())
+                    {
+                        items.Add(new SelectListItem
+                        {
+                            Text = Convert.ToString(dr["FormatName"]),
+                            Value = Convert.ToString(dr["FormatId"])
+                        });
+                    }
+                }
+            }
+
+            return items;
+            //items = exportFormats.Select((day, index) =>
+            //{
+            //    return new SelectListItem
+            //    {
+            //        Text = index.ToString(),
+            //        Value = day
                     
-                };
-            }).ToList();
-           //ViewBag.FormatTypes = new SelectList(items, "Text", "Value");
+            //    };
+            //}).ToList();
+          
+        }
+
+        public static List<SelectListItem> PopulateYears()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
+            using (SqlCommand cmd = new SqlCommand("SELECT YearId, Year FROM Years ORDER BY YearId", conn))
+            {
+
+                conn.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        items.Add(new SelectListItem
+                        {
+                            Text = Convert.ToString(dr["Year"]),
+                            Value = Convert.ToString(dr["YearId"])
+                        });
+                    }
+                }
+            }
+
             return items;
         }
+        public static List<SelectListItem> PopulateMonths()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
+            using (SqlCommand cmd = new SqlCommand("SELECT MonthId, Month FROM Months", conn))
+            {
+
+                conn.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        items.Add(new SelectListItem
+                        {
+                            Text = Convert.ToString(dr["Month"]),
+                            Value = Convert.ToString(dr["MonthId"])
+                        });
+                    }
+                }
+            }
+
+            return items;
+        }
+
+        public static List<SelectListItem> PopulateQuarters()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            using (SqlConnection conn = new SqlConnection(DatabaseConnect))
+            using (SqlCommand cmd = new SqlCommand("SELECT QuarterId, Quarter FROM Quarters", conn))
+            {
+
+                conn.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    while (dr.Read())
+                    {
+                        items.Add(new SelectListItem
+                        {
+                            Text = Convert.ToString(dr["Quarter"]),
+                            Value = Convert.ToString(dr["QuarterId"])
+                        });
+                    }
+                }
+            }
+
+            return items;
+        }
+
+        public ActionResult PurchasesByMonth()
+        {
+            Invoice invoice = new Invoice();
+            invoice.Years = PopulateYears();
+            invoice.Months = PopulateMonths();
+            invoice.FileFormats = PopulateExportTypes();
+            return View(invoice);
+        }
+
+        [HttpPost]
+        public ActionResult PurchasesByMonth(FormCollection formcollection)
+        {
+            Invoice invoice = new Invoice();
+            try
+            {
+                invoice.Years = PopulateYears();
+                invoice.Months = PopulateMonths();
+                invoice.FileFormats = PopulateExportTypes();
+                invoice.YearId = Convert.ToInt32(formcollection["YearId"]);
+                invoice.MonthId = Convert.ToInt32(formcollection["MonthId"]);
+                invoice.FormatId = Convert.ToInt32(formcollection["FormatId"]);
+
+                var YearName = formcollection["YearName"];
+                var MonthName = formcollection["MonthName"];
+
+                if (Convert.ToString(formcollection["YearId"]) != null && Convert.ToString(formcollection["MonthId"]) != null && Convert.ToString(formcollection["FormatId"]) != null)
+                {
+                   
+                    //initialize session variables
+                    Session["MonthId"] = invoice.MonthId;
+                    Session["YearId"] = invoice.YearId;
+                    var DropChoice = invoice.FormatId;
+                    if (DropChoice == 4)
+                    {
+                        return RedirectToAction("PurchasesReportByMonthWord");
+                    }
+                    else if (DropChoice == 3)
+                    {
+                        return RedirectToAction("PurchasesReportByMonthExcel");
+                    }
+                    else
+                    {
+                        return RedirectToAction("PurchasesReportByMonth");
+                    }
+                   
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Missing selection.Please select all parameters!";
+
+                    return View();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                invoice.Years = PopulateYears();
+                invoice.Months = PopulateMonths();
+                invoice.FileFormats = PopulateExportTypes();
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = "An error occurred during request processing";
+                return View(invoice);
+            }
+
+
+        }
+
+        public ActionResult ReportError()
+        {
+            
+            return View();
+        }
+
+
+        public ActionResult PurchasesByQuarter()
+        {
+            Invoice invoice = new Invoice();
+            invoice.Years = PopulateYears();
+            invoice.AnnualQuarters = PopulateQuarters();
+            invoice.FileFormats = PopulateExportTypes();
+            return View(invoice);
+        }
+
+        [HttpPost]
+        public ActionResult PurchasesByQuarter(FormCollection formcollection)
+        {
+            Invoice invoice = new Invoice();
+            try
+
+            {
+                invoice.Years = PopulateYears();
+                invoice.AnnualQuarters = PopulateQuarters();
+                invoice.FileFormats = PopulateExportTypes();
+                invoice.YearId = Convert.ToInt32(formcollection["YearId"]);
+                invoice.QuarterId = Convert.ToInt32(formcollection["QuarterId"]);
+                invoice.FormatId = Convert.ToInt32(formcollection["FormatId"]);
+
+                //var YearName = formcollection["YearName"];
+                //var QuarterName = formcollection["QuarterName"];
+
+                if (Convert.ToString(formcollection["YearId"]) != null && Convert.ToString(formcollection["QuarterId"]) != null && Convert.ToString(formcollection["FormatId"]) != null)
+                {
+                    var selectedYear = invoice.AnnualQuarters.Find(p => p.Value == invoice.QuarterId.ToString());
+                    var selectedQuarter = invoice.Years.Find(p => p.Value == invoice.YearId.ToString());
+                    var DropChoice = invoice.FormatId;
+                    //if (selectedYear != null && selectedQuarter != null)
+                    //{
+                    //    selectedYear.Selected = true;
+                    //    selectedQuarter.Selected = true;
+                    //    ViewBag.Message = selectedYear.Text;
+                    //    ViewBag.Message = selectedQuarter.Text;
+                    //}
+                    //initialize session variables
+                    Session["QuarterId"] = invoice.QuarterId;
+                    Session["YearId"] = invoice.YearId;
+                   
+                        if (DropChoice == 4)
+                        {
+                            return RedirectToAction("PurchasesReportByQuarterWord");
+                        }
+                        else if (DropChoice == 3)
+                        {
+                            return RedirectToAction("PurchasesReportByQuarterExcel");
+                        }
+                        else
+                        {
+                        return RedirectToAction("PurchasesReportByQuarterPDF");
+                        }
+
+                    //}
+                    // return RedirectToAction("PurchasesReportByQuarter");
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Missing selection.Please select all parameters!";
+
+                    return View();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                invoice.Years = PopulateYears();
+                invoice.AnnualQuarters = PopulateQuarters();
+                invoice.FileFormats = PopulateExportTypes();
+                ExceptionLogging.SendErrorToText(ex);              
+                return View(invoice);
+            }
+            
+
+        }
+
+
+        public ActionResult PurchasesByDate()
+        {
+            Invoice invoice = new Invoice();
+            invoice.FileFormats = PopulateExportTypes();
+
+            return View(invoice);
+        }
+
+        [HttpPost]
+        public ActionResult PurchasesByDate(FormCollection formcollection)
+        {
+            Invoice invoice = new Invoice();
+            invoice.FileFormats = PopulateExportTypes();
+
+            try
+
+            {
+                
+                if (Convert.ToString(formcollection["StartDate"]) != null && Convert.ToString(formcollection["EndDate"]) != null && Convert.ToString(formcollection["FormatId"]) != null)
+                {
+
+                    invoice.StartDate = Convert.ToDateTime(formcollection["StartDate"]);
+                    invoice.EndDate = Convert.ToDateTime(formcollection["EndDate"]);
+                    invoice.FormatId= Convert.ToInt32(formcollection["FormatId"]);
+                    if (invoice.StartDate > invoice.EndDate)
+                    {
+                        ViewBag.ErrorMessage = Messages.INVALID_LEAVE_DATES_ENTRY;
+                        return View(invoice);
+                    }
+                    //initialize session variables
+                    var DropChoice = invoice.FormatId;
+                    Session["StartDate"] = invoice.StartDate;
+                    Session["EndDate"] = invoice.EndDate;
+
+                    if (DropChoice == 4)
+                    {
+                        return RedirectToAction("PurchasesMasterWord");
+                    }
+                    else if (DropChoice == 3)
+                    {
+                        return RedirectToAction("PurchasesMasterExcel");
+                    }
+                    else
+                    {
+                        return RedirectToAction("PurchasesMasterByDate");
+                    }
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Missing selection.Please select all parameters!";
+
+                    return View();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                invoice.FileFormats = PopulateExportTypes();
+                ExceptionLogging.SendErrorToText(ex);
+
+                ViewBag.ErrorMessage = ex.Message;
+                return View(invoice);
+            }
+           
+        }
+
+
         [HttpGet]
         public ActionResult PurchasesReportByCriteria()
         {
             Invoice invoice = new Invoice();
-
-            string[] exportFormats = Enum.GetNames(typeof(CrystalDecisions.Shared.ExportFormatType));
-            SelectList list = new SelectList(exportFormats);
-            ViewBag.mylist = list;
+            //string[] exportFormats = Enum.GetNames(typeof(ExportFormatType));
+            //SelectList list = new SelectList(exportFormats);
+            //ViewBag.mylist = list;
 
             invoice.Expenses = PopulateExpenses();
             invoice.Units = PopulateUnits();
             invoice.Currencies = PopulateCurrencies();
             invoice.Services = PopulateServices();
             invoice.Vendors = PopulateVendors();
-            invoice.FileFormats = PopulateExportTypes();
+           invoice.FileFormats = PopulateExportTypes();
             return View(invoice);
         }
 
         [HttpPost]
         public ActionResult PurchasesReportByCriteria(FormCollection formcollection)
         {
-            string[] exportFormats = Enum.GetNames(typeof(CrystalDecisions.Shared.ExportFormatType));
-            SelectList list = new SelectList(exportFormats);
-            ViewBag.mylist = list;
+            
             Invoice invoice = new Invoice();
+           // string[] exportFormats = Enum.GetNames(typeof(ExportFormatType));
+           // SelectList list = new SelectList(exportFormats);
+           // ViewBag.mylist = list;
             invoice.Expenses = PopulateExpenses();
             invoice.Units = PopulateUnits();
             invoice.Currencies = PopulateCurrencies();
             invoice.Services = PopulateServices();
             invoice.Vendors = PopulateVendors();
             invoice.FileFormats = PopulateExportTypes();
+           // var selectedText = list.Where(x => x.Selected).FirstOrDefault().Text;
+
             try
             {              
-                if ( Convert.ToString(formcollection["CurrencyId"]) != null && Convert.ToString(formcollection["VendorId"]) != null && Convert.ToString(formcollection["AllocationId"]) != null && Convert.ToString(formcollection["UnitId"]) != null && Convert.ToString(formcollection["ExpId"]) != null)
+                if ( Convert.ToString(formcollection["CurrencyId"]) != null && Convert.ToString(formcollection["VendorId"]) != null && Convert.ToString(formcollection["AllocationId"]) != null && Convert.ToString(formcollection["UnitId"]) != null && Convert.ToString(formcollection["ExpId"]) != null && Convert.ToString(formcollection["FormatId"]) != null)
                 {
 
                     invoice.AllocationId = Convert.ToInt32(formcollection["AllocationId"]);
                     invoice.UnitId = Convert.ToInt32(formcollection["UnitId"]);
                     invoice.VendorId = Convert.ToInt32(formcollection["VendorId"]);
                     invoice.CurrencyId = Convert.ToInt32(formcollection["CurrencyId"]);                   
-                    invoice.ExpId = Convert.ToInt32(formcollection["ExpId"]);                 
-                    string selectedText = list.Where(x => x.Selected).FirstOrDefault().Text;
+                    invoice.ExpId = Convert.ToInt32(formcollection["ExpId"]);
+                    invoice.FormatId = Convert.ToInt32(formcollection["FormatId"]);
 
+                    //var selectedFormat = list.SelectedValue.ToString();
+                    // var selectedFormat = list.s.ToString();
+                    //if (!String.IsNullOrEmpty(selectedFormat))
+                    //{
+                    //    var fileformat = selectedFormat;
+                    //    invoice.format = fileformat;
+                    //    Session["FormatId"] = fileformat;
+                    //}
+                    var DropChoice = invoice.FormatId;
                     //initialize session variables
                     Session["UnitId"] = invoice.UnitId;
                     Session["AllocationId"] = invoice.AllocationId;
                     Session["VendorId"] = invoice.VendorId;
                     Session["CurrencyId"] = invoice.CurrencyId;
                     Session["ExpId"] = invoice.ExpId;
-                    Session["FormatId"] = selectedText;
-                 
-                    // ViewBag.SuccessMessage = Messages.OPERATION_COMPLETED_SUCCESSFULLY;
-                    return RedirectToAction("PurchasesByCriteria");
+
+                    if (DropChoice == 4)
+                    {
+                        return RedirectToAction("PurchasesByCriteriaWord");
+                    }
+                    else if (DropChoice == 3)
+                    {
+                        return RedirectToAction("PurchasesByCriteriaExcel");
+                    }
+                    else
+                    {
+                        return RedirectToAction("PurchasesByCriteria");
+                    }
+
+                   // return RedirectToAction("PurchasesByCriteria");
                    
                 }
                 else
@@ -316,11 +635,9 @@ namespace PaySys.Controllers
                 invoice.Units = PopulateUnits();
                 invoice.Vendors = PopulateVendors();
                 invoice.Expenses = PopulateExpenses();
-               // invoice.PaymentTypes = PopulatePaymentTypes();
                 invoice.FileFormats = PopulateExportTypes();
-                string[] exportFormatts = Enum.GetNames(typeof(CrystalDecisions.Shared.ExportFormatType));
-                //SelectList list = new SelectList(exportFormats);
-                ViewBag.mylist = list;
+                // string[] exportFormatts = Enum.GetNames(typeof(ExportFormatType));
+                // SelectList listt = new SelectList(exportFormatts);
 
                 return View(invoice);
             }
@@ -367,13 +684,33 @@ namespace PaySys.Controllers
         }
 
 
-
         // GET: Reports/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
+        //protected void Export(object sender, EventArgs e)
+        //{
+        //    ExportFormatType formatType = ExportFormatType.NoFormat;
+        //    switch (rbFormat.SelectedItem.Value)
+        //    {
+        //        case "Word":
+        //            formatType = ExportFormatType.WordForWindows;
+        //            break;
+        //        case "PDF":
+        //            formatType = ExportFormatType.PortableDocFormat;
+        //            break;
+        //        case "Excel":
+        //            formatType = ExportFormatType.Excel;
+        //            break;
+        //        case "CSV":
+        //            formatType = ExportFormatType.CharacterSeparatedValues;
+        //            break;
+        //    }
 
+        //    crystalReport.ExportToHttpResponse(formatType, Response, true, "Crystal");
+        //    Response.End();
+        //}
         // GET: Reports/Create
         public ActionResult Create()
         {
@@ -383,7 +720,7 @@ namespace PaySys.Controllers
         public ActionResult TaskReport()
         {
 
-            SqlConnection con = new SqlConnection(Helpers.Helpers.DatabaseConnect);
+            SqlConnection con = new SqlConnection(DatabaseConnect);
             DataTable dt = new DataTable();
             try
             {
@@ -411,7 +748,7 @@ namespace PaySys.Controllers
 
          
              string filePath = Server.MapPath("~/TaskReports/");
-            string destPath = Path.Combine(filePath, Helpers.Helpers.ToSafeFileName(OutputFileName));
+            string destPath = Path.Combine(filePath, ToSafeFileName(OutputFileName));
             // if (formatId == parameters.Excel)
 
              rptH.ExportToDisk(ExportFormatType.PortableDocFormat, destPath);
@@ -424,11 +761,35 @@ namespace PaySys.Controllers
             Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
             return File(stream, "application/pdf");
         }
+        [HttpGet]
+        public ActionResult GenerateSingleMemo()
+        {
+            Invoice invoice = new Invoice();                
+            return View(invoice);
+        }
+
+        [HttpPost]
+        public ActionResult GenerateSingleMemo(FormCollection formcollection)
+        {
+            Invoice invoice = new Invoice();       
+            try
+            {     
+                    invoice.Reference = Convert.ToString(formcollection["Reference"]);
+                    return RedirectToAction("GenerateMemo");
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+
+                return View(invoice);
+            }
+
+        }
 
         public ActionResult GenerateMemo()
         {
 
-            SqlConnection con = new SqlConnection(Helpers.Helpers.DatabaseConnect);
+            SqlConnection con = new SqlConnection(DatabaseConnect);
             DataTable dt = new DataTable();
             try
             {
@@ -436,12 +797,14 @@ namespace PaySys.Controllers
                 SqlCommand cmd = new SqlCommand("SELECT Description,CurrencySymbol,ActualAmount,CurrencyAbbr FROM vw_PurchasesByCriteria WHERE Reference='" + Convert.ToString(Session["Reference"]) + "'", con);
                 SqlDataAdapter adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
+
+             
             }
             catch (Exception ex)
             {
                 ExceptionLogging.SendErrorToText(ex);
                 ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
-                return View();
+                return RedirectToAction("ReportError");
 
             }
             var today = DateTime.Now.ToShortDateString();
@@ -456,41 +819,55 @@ namespace PaySys.Controllers
 
 
             string filePath = Server.MapPath("~/TaskReports/");
-            string destPath = Path.Combine(filePath, Helpers.Helpers.ToSafeFileName(OutputFileName));
-            // if (formatId == parameters.Excel)
-
-            rptH.ExportToDisk(ExportFormatType.PortableDocFormat, destPath);
-            //  Stream stream = rptH.ExportToStream(ExportFormatType.ExcelWorkbook);
-            //return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-
-            // else
-
-            // rptH.ExportToDisk(ExportFormatType.PortableDocFormat, destPath);
+            string destPath = Path.Combine(filePath, ToSafeFileName(OutputFileName));
+           
+            rptH.ExportToDisk(ExportFormatType.PortableDocFormat, destPath);          
             Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
             return File(stream, "application/pdf");
         }
 
+        public ActionResult GenerateWordMemo()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT Description,CurrencySymbol,ActualAmount,CurrencyAbbr FROM vw_PurchasesByCriteria WHERE Reference='" + Convert.ToString(Session["Reference"]) + "'", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+            }
+            var today = DateTime.Now.ToShortDateString();
+            var TaskReport = "Memo";
+            string OutputFileName = TaskReport.ToString() + "_" + today + ".pdf";
+
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchaseMemo.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+
+            string filePath = Server.MapPath("~/TaskReports/");
+            string destPath = Path.Combine(filePath, ToSafeFileName(OutputFileName));
+            
+            rptH.ExportToDisk(ExportFormatType.PortableDocFormat, destPath);
+          
+            Stream stream = rptH.ExportToStream(ExportFormatType.WordForWindows);
+            return File(stream, " application/msword");
+        }
 
         public ActionResult PurchasesByCriteria()
         {
-          
-            // var unitId = System.Web.HttpContext.Current.Session["ReportName"].ToString();    // Setting ReportName
-            //        string strFromDate = System.Web.HttpContext.Current.Session["rptFromDate"].ToString();     // Setting FromDate 
-            //        string strToDate = System.Web.HttpContext.Current.Session["rptToDate"].ToString();         // Setting ToDate    
-            //        var rptSource = System.Web.HttpContext.Current.Session["rptSource"];
-
-            //string filetype = Convert.ToString(Session["FormatId"]); ;
-
-            //Rename Processed Batch 
-            // string newPath = AddSuffix(sourceFile, String.Format("({0})", parameters.IsProcessed));
-            //FileInfo fi = new FileInfo(sourceFile);
-            //if (fi.Exists)
-            //{
-
-            //    fi.MoveTo(newPath);
-            //}
-
-            SqlConnection con = new SqlConnection(Helpers.Helpers.DatabaseConnect);
+           
+            SqlConnection con = new SqlConnection(DatabaseConnect);
             DataTable dt = new DataTable();
             try
             {
@@ -503,12 +880,21 @@ namespace PaySys.Controllers
             {
                 ExceptionLogging.SendErrorToText(ex);
                 ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
-                return View();
-               
+                return RedirectToAction("ReportError");
             }
 
-           
-           // string OutputFileName = BatchId + "_" + monthend + ".xlsx";
+            var BatchId = "PurchaseByCriteria";
+            var today = DateTime.Now.ToShortDateString();
+            string ExcelFile = BatchId.ToString() + "_" + today + ".xlsx";
+            string ExcelRecordFile = BatchId.ToString() + "_" + today + ".xls";
+            string ExcelHtml32File = BatchId.ToString() + "_" + today + ".html";
+            string ExcelHtml40File = BatchId.ToString() + "_" + today + ".html";
+            string ExcelNoFile = BatchId.ToString() + "_" + today + ".xlsx";
+            string ExcelWordFile = BatchId.ToString() + "_" + today + ".docx";
+            string ExcelRichTextFile = BatchId.ToString() + "_" + today + ".rtf";
+            string ExcelPdfFile = BatchId.ToString() + "_" + today + ".pdf";
+            string filePath = Server.MapPath("~/BatchOut/");
+           // string destPath = Path.Combine(filePath, ToSafeFileName(OutputFileName));
 
             ReportClass rptH = new ReportClass();
             rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesByCriteria.rpt");
@@ -516,92 +902,49 @@ namespace PaySys.Controllers
             rptH.Load();
             rptH.SetDataSource(dt);
 
-            ExportFormatType efileType = (CrystalDecisions.Shared.ExportFormatType)Enum.Parse(typeof(CrystalDecisions.Shared.ExportFormatType), Convert.ToString(Session["FormatId"]));
-            switch (efileType)
-            {
-                case CrystalDecisions.Shared.ExportFormatType.Excel:
-                    rptH.ExportToDisk(efileType, "reportExcel.xls");
-                    break;
-                case CrystalDecisions.Shared.ExportFormatType.ExcelRecord:
-                    rptH.ExportToDisk(efileType, "reportExcel.xls");
-                    break;
-                case CrystalDecisions.Shared.ExportFormatType.HTML32:
-                    rptH.ExportToDisk(efileType, "reporthtml.html");
-                    break;
-                case CrystalDecisions.Shared.ExportFormatType.HTML40:
-                    rptH.ExportToDisk(efileType, "reporthtml.html");
-                    break;
-                case CrystalDecisions.Shared.ExportFormatType.NoFormat:
-                    rptH.ExportToDisk(efileType, "reportExcel.xls");
-                    break;
-                case CrystalDecisions.Shared.ExportFormatType.PortableDocFormat:
-                    rptH.ExportToDisk(efileType, "reportpdf.pdf");
-                    break;
-                case CrystalDecisions.Shared.ExportFormatType.RichText:
-                    rptH.ExportToDisk(efileType, "reportrtf.rtf");
-                    break;
-                case CrystalDecisions.Shared.ExportFormatType.WordForWindows:
-                    rptH.ExportToDisk(efileType, "reportdoc.doc");
-                    break;
-            }
-            // string filePath = Server.MapPath("~/BatchOut/");
-            // string destPath = Path.Combine(filePath, ToSafeFileName(OutputFileName));
-            // if (formatId == parameters.Excel)
-
-            // rptH.ExportToDisk(ExportFormatType.ExcelWorkbook, destPath);
-            //  Stream stream = rptH.ExportToStream(ExportFormatType.ExcelWorkbook);
-            //return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-
-            // else
-
-            // rptH.ExportToDisk(ExportFormatType.PortableDocFormat, destPath);
+            //ExportFormatType efileType = (ExportFormatType)Enum.Parse(typeof(ExportFormatType), Convert.ToString(Session["FormatId"]));
+            //switch (efileType)
+            //{
+            //    case ExportFormatType.Excel:
+            //        rptH.ExportToDisk(efileType, Path.Combine(filePath, ToSafeFileName(ExcelFile)));
+            //        break;
+            //    case ExportFormatType.ExcelRecord:
+            //        rptH.ExportToDisk(efileType, Path.Combine(filePath, ToSafeFileName(ExcelRecordFile)));
+            //        break;
+            //    case ExportFormatType.HTML32:
+            //        rptH.ExportToDisk(efileType, Path.Combine(filePath, ToSafeFileName(ExcelHtml32File)));
+            //        break;
+            //    case ExportFormatType.HTML40:
+            //        rptH.ExportToDisk(efileType, Path.Combine(filePath, ToSafeFileName(ExcelHtml40File)));
+            //        break;
+            //    case ExportFormatType.NoFormat:
+            //        rptH.ExportToDisk(efileType, Path.Combine(filePath, ToSafeFileName(ExcelNoFile)));
+            //        break;
+            //    case ExportFormatType.PortableDocFormat:
+            //        rptH.ExportToDisk(efileType, Path.Combine(filePath, ToSafeFileName(ExcelPdfFile)));
+            //        break;
+            //    case ExportFormatType.RichText:
+            //        rptH.ExportToDisk(efileType, Path.Combine(filePath, ToSafeFileName(ExcelRichTextFile)));
+            //        break;
+            //    case ExportFormatType.WordForWindows:
+            //        rptH.ExportToDisk(efileType, Path.Combine(filePath, ToSafeFileName(ExcelWordFile)));
+            //        break;
+            //}
+       
                Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
                return File(stream, "application/pdf");
-            
-            //else if (formatId == parameters.Xml)
-            //{
-            //    Stream stream = rptH.ExportToStream(ExportFormatType.Xml);
-            //    return File(stream, "application/xml");
-            //}
-
-            //else if (formatId == parameters.Html)
-            //{
-            //    Stream streamm = rptH.ExportToStream(ExportFormatType.HTML40);
-            //    return File(streamm, "application/html");
-            //}
-            //else 
-            //    Stream stream = rptH.ExportToStream(ExportFormatType.CharacterSeparatedValues);
-            //    return File(stream, "application/csv");
-  
-            
+     
            
         }
-
-        public ActionResult PurchasesMaster()
+        public ActionResult PurchasesByCriteriaWord()
         {
-           
-            // var unitId = System.Web.HttpContext.Current.Session["ReportName"].ToString();    // Setting ReportName
-            //        string strFromDate = System.Web.HttpContext.Current.Session["rptFromDate"].ToString();     // Setting FromDate 
-            //        string strToDate = System.Web.HttpContext.Current.Session["rptToDate"].ToString();         // Setting ToDate    
-            //        var rptSource = System.Web.HttpContext.Current.Session["rptSource"];
 
-            //Rename Processed Batch 
-            // string newPath = AddSuffix(sourceFile, String.Format("({0})", parameters.IsProcessed));
-
-
-            //FileInfo fi = new FileInfo(sourceFile);
-            //if (fi.Exists)
-            //{
-
-            //    fi.MoveTo(newPath);
-            //}
-
-            SqlConnection con = new SqlConnection(Helpers.Helpers.DatabaseConnect);
+            SqlConnection con = new SqlConnection(DatabaseConnect);
             DataTable dt = new DataTable();
             try
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria ", con);
+                SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria WHERE AllocationId='" + Convert.ToInt32(Session["AllocationId"]) + "' AND CurrencyId='" + Convert.ToInt32(Session["CurrencyId"]) + "' AND VendorId='" + Convert.ToInt32(Session["VendorId"]) + "' AND ExpId='" + Convert.ToInt32(Session["ExpId"]) + "' AND UnitId='" + Convert.ToInt32(Session["UnitId"]) + "'", con);
                 SqlDataAdapter adp = new SqlDataAdapter(cmd);
                 adp.Fill(dt);
             }
@@ -609,37 +952,391 @@ namespace PaySys.Controllers
             {
                 ExceptionLogging.SendErrorToText(ex);
                 ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
-                return View();
-                // ex.Message.ToString();
+                return RedirectToAction("ReportError");
             }
 
-
-            // string OutputFileName = BatchId + "_" + monthend + ".xlsx";
+            var BatchId = "PurchaseByCriteria";
+            var today = DateTime.Now.ToShortDateString();
+            string ExcelFile = BatchId.ToString() + "_" + today + ".xlsx";
+            string ExcelRecordFile = BatchId.ToString() + "_" + today + ".xls";
+            string ExcelHtml32File = BatchId.ToString() + "_" + today + ".html";
+            string ExcelHtml40File = BatchId.ToString() + "_" + today + ".html";
+            string ExcelNoFile = BatchId.ToString() + "_" + today + ".xlsx";
+            string ExcelWordFile = BatchId.ToString() + "_" + today + ".docx";
+            string ExcelRichTextFile = BatchId.ToString() + "_" + today + ".rtf";
+            string ExcelPdfFile = BatchId.ToString() + "_" + today + ".pdf";
+            string filePath = Server.MapPath("~/BatchOut/");
+            // string destPath = Path.Combine(filePath, ToSafeFileName(OutputFileName));
 
             ReportClass rptH = new ReportClass();
             rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesByCriteria.rpt");
 
             rptH.Load();
             rptH.SetDataSource(dt);
-            // string filePath = Server.MapPath("~/BatchOut/");
-            // string destPath = Path.Combine(filePath, ToSafeFileName(OutputFileName));
-            // if (formatId == parameters.Excel)
 
-            // rptH.ExportToDisk(ExportFormatType.ExcelWorkbook, destPath);
-            //  Stream stream = rptH.ExportToStream(ExportFormatType.ExcelWorkbook);
-            //return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-
-            // else
-
-            // rptH.ExportToDisk(ExportFormatType.PortableDocFormat, destPath);
-            Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
-            return File(stream, "application/pdf");
+            Stream stream = rptH.ExportToStream(ExportFormatType.WordForWindows);
+            return File(stream, "application/msword");
 
 
         }
+        public ActionResult PurchasesByCriteriaExcel()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria WHERE AllocationId='" + Convert.ToInt32(Session["AllocationId"]) + "' AND CurrencyId='" + Convert.ToInt32(Session["CurrencyId"]) + "' AND VendorId='" + Convert.ToInt32(Session["VendorId"]) + "' AND ExpId='" + Convert.ToInt32(Session["ExpId"]) + "' AND UnitId='" + Convert.ToInt32(Session["UnitId"]) + "'", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+            }
+
+            var BatchId = "PurchaseByCriteria";
+            var today = DateTime.Now.ToShortDateString();
+            string ExcelFile = BatchId.ToString() + "_" + today + ".xlsx";
+            string ExcelRecordFile = BatchId.ToString() + "_" + today + ".xls";
+            string ExcelHtml32File = BatchId.ToString() + "_" + today + ".html";
+            string ExcelHtml40File = BatchId.ToString() + "_" + today + ".html";
+            string ExcelNoFile = BatchId.ToString() + "_" + today + ".xlsx";
+            string ExcelWordFile = BatchId.ToString() + "_" + today + ".docx";
+            string ExcelRichTextFile = BatchId.ToString() + "_" + today + ".rtf";
+            string ExcelPdfFile = BatchId.ToString() + "_" + today + ".pdf";
+            string filePath = Server.MapPath("~/BatchOut/");
+            // string destPath = Path.Combine(filePath, ToSafeFileName(OutputFileName));
+
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesByCriteria.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.ExcelWorkbook);
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
 
+        }
+        public ActionResult PurchasesReportByQuarterPDF()
+        {
 
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+              
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT Year,Quarter,AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PaymentsQuarterlyData WHERE YearId='" + Convert.ToInt32(Session["YearId"]) + "' AND QuarterId='" + Convert.ToInt32(Session["QuarterId"]) + "'", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+               // return View();
+            }
+
+         
+            var today = DateTime.Now.ToShortDateString();
+           
+           
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesByQuarter.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
+        }
+
+        public ActionResult PurchasesReportByQuarterExcel()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT Year,Quarter,AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PaymentsQuarterlyData WHERE YearId='" + Convert.ToInt32(Session["YearId"]) + "' AND QuarterId='" + Convert.ToInt32(Session["QuarterId"]) + "'", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+                
+            }
+            var today = DateTime.Now.ToShortDateString();
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesByQuarter.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.ExcelWorkbook);
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        }
+
+        public ActionResult PurchasesReportByQuarterWord()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT Year,Quarter,AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PaymentsQuarterlyData WHERE YearId='" + Convert.ToInt32(Session["YearId"]) + "' AND QuarterId='" + Convert.ToInt32(Session["QuarterId"]) + "'", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                 return RedirectToAction("ReportError");
+
+            }
+
+
+            var today = DateTime.Now.ToShortDateString();
+
+
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesByQuarter.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.WordForWindows);
+            //.docx application/ vnd.openxmlformats - officedocument.wordprocessingml.document
+            return File(stream, "application/msword");
+        }
+        public ActionResult PurchasesReportByMonth()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PaymentsQuarterlyData WHERE YearId='" + Convert.ToInt32(Session["YearId"]) + "' AND MonthId='" + Convert.ToInt32(Session["MonthId"]) + "'", con);
+
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+            }
+
+            var BatchId = "PurchaseByCriteria";
+            var today = DateTime.Now.ToShortDateString();
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesByMonth.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
+        }
+        public ActionResult PurchasesReportByMonthWord()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PaymentsQuarterlyData WHERE YearId='" + Convert.ToInt32(Session["YearId"]) + "' AND MonthId='" + Convert.ToInt32(Session["MonthId"]) + "'", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+            }
+
+            var BatchId = "PurchaseByCriteria";
+            var today = DateTime.Now.ToShortDateString();
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesByMonth.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.WordForWindows);
+            return File(stream, "application/msword");
+        }
+        public ActionResult PurchasesReportByMonthExcel()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PaymentsQuarterlyData WHERE YearId='" + Convert.ToInt32(Session["YearId"]) + "' AND MonthId='" + Convert.ToInt32(Session["MonthId"]) + "'", con);
+
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+            }
+
+            var BatchId = "PurchaseByCriteria";
+            var today = DateTime.Now.ToShortDateString();
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesByMonth.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.ExcelWorkbook);
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        }
+        public ActionResult PurchasesMaster()
+        {
+           
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria ", con);
+               // SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria where CreatedOn BETWEEN Convert(DateTime,'" + Session["StartDate"] + "',101) AND Convert(DateTime,'" + Session["EndDate"] + "',101) ", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+            }
+
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesMaster.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+           
+            Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
+        }
+
+        public ActionResult PurchasesMasterByDate()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                //SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria ", con);
+                 SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria where CreatedOn BETWEEN Convert(DateTime,'" + Session["StartDate"] + "',101) AND Convert(DateTime,'" + Session["EndDate"] + "',101) ", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+            }
+
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesMaster.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
+            return File(stream, "application/pdf");
+        }
+
+        public ActionResult PurchasesMasterWord()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                // SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria ", con);
+                SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria where CreatedOn BETWEEN Convert(DateTime,'" + Session["StartDate"] + "',101) AND Convert(DateTime,'" + Session["EndDate"] + "',101) ", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+            }
+
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesMaster.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.WordForWindows);
+            return File(stream, "application/msword");
+        }
+
+
+        public ActionResult PurchasesMasterExcel()
+        {
+
+            SqlConnection con = new SqlConnection(DatabaseConnect);
+            DataTable dt = new DataTable();
+            try
+            {
+                con.Open();
+                // SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria ", con);
+                SqlCommand cmd = new SqlCommand("SELECT AllocationName,ExpenseName,UnitName,VendorName,ActualAmount,Reference,CreatedOn,CurrencyAbbr,Discount FROM vw_PurchasesByCriteria where CreatedOn BETWEEN Convert(DateTime,'" + Session["StartDate"] + "',101) AND Convert(DateTime,'" + Session["EndDate"] + "',101) ", con);
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                adp.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogging.SendErrorToText(ex);
+                ViewBag.ErrorMessage = Messages.GENERAL_ERROR;
+                return RedirectToAction("ReportError");
+            }
+
+            ReportClass rptH = new ReportClass();
+            rptH.FileName = Server.MapPath(("~/Reports/") + "PurchasesMaster.rpt");
+
+            rptH.Load();
+            rptH.SetDataSource(dt);
+
+            Stream stream = rptH.ExportToStream(ExportFormatType.WordForWindows);
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        }
         // GET: Reports/Edit/5
         public ActionResult Edit(int id)
         {

@@ -95,9 +95,10 @@
         <div class="page-header">
             <h1>Services</h1>
         </div>
-        <p>
-            @Html.ActionLink("Add New", "CreateService", null, new { @class = "btn btn-primary" })
-        </p>
+        @*<p>
+            @Html.ActionLink("Link Name", "Create", "Setup", null, null)
+            @Html.ActionLink("Add New", "Create", "Setup", new { @class = "btn btn-primary" })
+        </p>*@
         <div class="hr hr-16 hr-dotted"></div>
         <div class="row">
             <div class="col-xs-12">
@@ -148,11 +149,11 @@
 
                                                                         <td>@Html.DisplayFor(modelItem => item.CreatedOn)</td>
 
-                                                                        <td>
+                                                                        @*<td>
 
                                                                             @Html.ActionLink("Update", "UpdateService", new { id = item.AllocationId })
 
-                                                                        </td>
+                                                                        </td>*@
 
                                                                     </tr>
 

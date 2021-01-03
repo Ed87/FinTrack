@@ -16,20 +16,25 @@ namespace PaySys.Models
         public string Username { get; set; }
         public string Entity { get; set; }
         public int InvoiceId { get; set; }
-
+        public string ReferenceNumber { get; set; }
         public int Active { get; set; }
 
         public Boolean Act { get; set; }
 
         public int PaymentType { get; set; }
 
+        [Required]
+        [Display(Name = "Description ")]
         [DataType(DataType.MultilineText)]
         public String Description { get; set; }
 
+        [Required]
+        [Display(Name = "Actual Amount ")]
         [DisplayFormat(DataFormatString = "{0:n}")]
         public Double ActualAmount { get; set; }
 
-
+        [Required]
+        [Display(Name = "Quoted Amount ")]
         [DisplayFormat(DataFormatString = "{0:n}")]
         public Double QuotedAmount { get; set; }
 
@@ -44,7 +49,7 @@ namespace PaySys.Models
         public String Dpt { get; set; }
 
         [Required]
-        [Display(Name = "I ")]
+        [Display(Name = "Approve ")]
         public int Approve { get; set; }
 
         public String DocumentUrl2 { get; set; }
@@ -60,14 +65,37 @@ namespace PaySys.Models
 
         public String Allocation { get; set; }
 
+        [Required]
+        [Display(Name = "Quantity ")]
         public int Quantity { get; set; }
 
         public int Format { get; set; }
 
 
         [Required]
-        [Display(Name = "Job Title ")]
-        public int FormatId { get; set; }
+        [Display(Name = "Quarter ")]
+        public int QuarterId { get; set; }
+        public List<SelectListItem> AnnualQuarters { get; set; }
+
+
+
+        [Required]
+        [Display(Name = "Quarter ")]
+        public int MonthId { get; set; }
+        public List<SelectListItem> Months { get; set; }
+
+
+        [Required]
+        [Display(Name = "Financial Year ")]
+        public int YearId { get; set; }
+        public List<SelectListItem> Years { get; set; }
+
+
+        public string format { get; set; }
+        [Required]
+        [Display(Name = "File Format ")]
+       public int FormatId { get; set; }
+       // public List<SelectList> FileFormats { get; set; }
         public List<SelectListItem> FileFormats { get; set; }
 
         [Required]
@@ -76,8 +104,8 @@ namespace PaySys.Models
         public List<SelectListItem> Statuses { get; set; }
 
 
-        [Required]
-        [Display(Name = "Job Title ")]
+       // [Required]
+        [Display(Name = "Department ")]
         public int DepartmentId { get; set; }
         public List<SelectListItem> Departments { get; set; }
 
@@ -87,41 +115,39 @@ namespace PaySys.Models
         public string SelectedFormat { get; set; }
 
 
-
-
         [Required]
-        [Display(Name = "Job Title ")]
+        [Display(Name = "Service")]
         public int AllocationId { get; set; }
         public List<SelectListItem> Services { get; set; }
 
 
         [Required]
-        [Display(Name = "Job Title ")]
+        [Display(Name = "Payment Type")]
         public int PaymentTypeId { get; set; }
         public List<SelectListItem> PaymentTypes { get; set; }
 
-
+       
         [Required]
-        [Display(Name = "Job Title ")]
+        [Display(Name = "Vendor ")]
         public int VendorId { get; set; }
         public List<SelectListItem> Vendors { get; set; }
 
 
         [Required]
-        [Display(Name = "Job Title ")]
+        [Display(Name = "Business Unit ")]
         public int UnitId { get; set; }
         public List<SelectListItem> Units { get; set; }
 
 
 
         [Required]
-        [Display(Name = "Job Title ")]
+        [Display(Name = "Expense Category ")]
         public int ExpId { get; set; }
         public List<SelectListItem> Expenses { get; set; }
 
 
         [Required]
-        [Display(Name = "Job Title ")]
+        [Display(Name = "Currency")]
         public int CurrencyId { get; set; }
         public List<SelectListItem> Currencies { get; set; }
 
@@ -135,12 +161,27 @@ namespace PaySys.Models
 
         public String AllocationName { get; set; }
 
-
+        public String DptName { get; set; }
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        [Display(Name = "Joining Date ")]
+        [Display(Name = "Payment Date ")]
         public DateTime CreatedOn { get; set; }
+
+
+        [Required]
+       // [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [Display(Name = "Start Date ")]
+        public DateTime StartDate { get; set; }
+
+        [Required]
+      //  [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [Display(Name = "End Date ")]
+        public DateTime EndDate { get; set; }
+
+
 
 
         [Required]
@@ -156,9 +197,23 @@ namespace PaySys.Models
         public DateTime ModifiedOn { get; set; }
 
 
+        //public UploadFileModel()
+        //{
+        //    Files = new List<HttpPostedFileBase>();
+        //}
+
+       // public List<HttpPostedFileBase> files { get; set; }
+
         [DataType(DataType.Upload)]
         [Display(Name = "File Attachment")]
+       // [AllowFileSize(FileSize = 5 * 1024 * 1024, ErrorMessage = "Maximum allowed file size is 5 MB")]>
         public String PostedFile { get; set; }
+
+
+        [DataType(DataType.Upload)]
+        [Display(Name = "File Attachment")]
+        // [AllowFileSize(FileSize = 5 * 1024 * 1024, ErrorMessage = "Maximum allowed file size is 5 MB")]>
+        public String ActualAmountFile { get; set; }
 
         public static Invoice find(int id)
         {

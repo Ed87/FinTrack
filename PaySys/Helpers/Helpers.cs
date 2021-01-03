@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.DirectoryServices;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -98,7 +99,13 @@ namespace PaySys.Helpers
             return builder.ToString();
         }
 
-     
+       //public static class ExtensionMethods
+       // {
+            public static int GetQuarter(this DateTime dt)
+            {
+                return (dt.Month - 1) / 3 + 1;
+            }
+       // }
 
 
         public struct TrainingReason
@@ -157,6 +164,7 @@ namespace PaySys.Helpers
             public static int Csv = 3;
             public static int Html = 4;
             public static int Xml = 5;
+            public static int IsAct = 2;
 
 
             //ActionTypes
@@ -211,8 +219,7 @@ namespace PaySys.Helpers
             public static int superadmin = 6;
             public static int IHead = 1002;
 
-
-
+         
 
 
             //Training Reasons
@@ -253,6 +260,7 @@ namespace PaySys.Helpers
                 .Replace("|", "");
         }
         public static string DatabaseConnect = ConfigurationManager.ConnectionStrings["PayPoint"].ConnectionString;
+        public static string DatabaseConnect2 = ConfigurationManager.ConnectionStrings["MIHR"].ConnectionString;
         public static bool CheckConnection()
         {
             String address = "208.69.34.231";
@@ -267,6 +275,19 @@ namespace PaySys.Helpers
                 return false;
             }
         }
+        //public static DirectoryEntry GetDirectoryEntry()
+        //{
+        //    DirectoryEntry entry = new DirectoryEntry("LDAP://10.170.8.20:389/OU=FBC,DC=fbc,DC=corp", Convert.ToString(Session["Uname"], model.Password);
+        //    DirectoryEntry ldapConnection = new DirectoryEntry("FBC.CORP");
+        //    ldapConnection.Path = "LDAP://";
+        //    ldapConnection.Username = "Nyakudyap";// "Mashingat";
+        //    ldapConnection.Password = "legend45*";//"password1*"
+        //    ldapConnection.AuthenticationType = AuthenticationTypes.Secure;
+
+        //    //Login with user
+        //    object nativeObject = entry.NativeObject;
+        //    return entry;
+        //}
 
 
         //Duplicates in NewBroker

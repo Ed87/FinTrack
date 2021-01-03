@@ -25,6 +25,17 @@
     <link rel="stylesheet" href="~/assets2/css/ace-skins.min.css" />
     <link rel="stylesheet" href="~/assets2/css/ace-rtl.min.css" />
 
+
+    <link rel="stylesheet" href="~/assets2/css/bootstrap-datepicker3.min.css" />
+    <link rel="stylesheet" href="~/assets2/css/bootstrap-timepicker.min.css" />
+    <link rel="stylesheet" href="~/assets2/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="~/assets2/css/daterangepicker.min.css" />
+    <link rel="stylesheet" href="~/assets2/css/chosen.min.css" />
+    <link rel="stylesheet" href="~/assets2/css/jquery-ui.custom.min.css" />
+    <link rel="stylesheet" href="~/assets2/css/daterangepicker.min.css" />
+    <link rel="stylesheet" href="~/assets2/css/chosen.min.css" />
+    <link rel="stylesheet" href="~/assets2/css/jquery-ui.custom.min.css" />
+
     <!--[if lte IE 9]>
       <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
     <![endif]-->
@@ -38,7 +49,7 @@
     <script src="assets/js/respond.min.js"></script>
     <![endif]-->
     <!-- <script src="~/assets/plugin/datatables/extensions/Responsive/js/responsive.bootstrap4.js"></script>-->
-    <script src="~/assets2/scripts/Angular.min.js"></script>
+    @*<script src="~/assets2/scripts/Angular.min.js"></script>*@
 
 </head>
 
@@ -64,7 +75,7 @@
             <div class="navbar-header pull-left">
                 <small>
                     <a class="navbar-brand">
-                        <img class="nav-user-photo" src="~/assets2/images/gallery/logopay.jpg" alt="Our Logo" />
+                        <img class="nav-user-photo" src="~/assets2/images/gallery/fbclogos.png" alt="Our Logo" />
                     </a>
                 </small>
             </div>
@@ -79,10 +90,11 @@
                             <!--<img class="nav-user-photo" src="~/assets2/images/avatars/user.jpg" alt="Jason's Photo" />-->
                             <span class="user-info">
                                 <strong><small>Welcome,</small></strong>
-                                    
-                                    @*@Helpers.Helpers.TitleCaseString(Session["Username"].ToString())*@
-                                    <strong> @Session["Username"]</strong>
-</span>
+
+                                @*@Helpers.Helpers.TitleCaseString(Session["Username"].ToString())*@
+                                <strong> @Session["Username"]</strong>
+                                @*<strong> @Session["JobTitle"]</strong>*@
+                            </span>
 
                             <i class="ace-icon fa fa-caret-down"></i>
                         </a>
@@ -126,18 +138,21 @@
                     <button class="btn btn-success">
                         <i class="ace-icon fa fa-signal"></i>
                     </button>
-                    @*http://localhost:64808/Invoicing/Create*@
-                  
+
                     <button onclick="location.href='http://localhost:64808/Invoicing/Create'" class="btn btn-info">
                         @*<a href="~/Invoicing/Create">*@
-                            <i class="ace-icon fa fa-pencil"></i>
+                        <i class="ace-icon fa fa-pencil"></i>
 
                         @*</a>*@
 
                     </button>
 
-                    <button class="btn btn-warning">
-                        <i class="ace-icon fa fa-users"></i>
+                    <button onclick="location.href='http://localhost:64808/Setup/CreateADUsers'" class="btn btn-info">
+                        @*<a href="~/Invoicing/Create">*@
+                        <i class="ace-icon fa fa-user"></i>
+
+                        @*</a>*@
+
                     </button>
 
                     <button class="btn btn-danger">
@@ -170,8 +185,8 @@
             <div class="footer-inner">
                 <div class="footer-content">
                     <span class="bigger-120">
-                        <span class="blue bolder">Purchase</span>
-                       Point &copy; 2020
+                        <span class="blue bolder">Fin</span>
+           Track&copy; 2020
                     </span>
 
                     &nbsp; &nbsp;
@@ -206,11 +221,11 @@
     <script src="assets/js/jquery-1.11.3.min.js"></script>
     <![endif]-->
     @RenderSection("scripts", required: false)
-    @RenderSection("angular", required: false)
+    
     @RenderSection("validation", required: false)
     @RenderSection("style", required: false)
     <script type="text/javascript">
-        if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        if ('ontouchstart' in document.documentElement) document.write("<script src='assets2/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
     <script src="~/assets2/js/bootstrap.min.js"></script>
 
@@ -236,25 +251,7 @@
             /////////////////////////////////////
             $(document).one('ajaxloadstart.page', function (e) {
                 $tooltip.remove();
-            });
-
-            var d1 = [];
-            for (var i = 0; i < Math.PI * 2; i += 0.5) {
-                d1.push([i, Math.sin(i)]);
-            }
-
-            var d2 = [];
-            for (var i = 0; i < Math.PI * 2; i += 0.5) {
-                d2.push([i, Math.cos(i)]);
-            }
-
-            var d3 = [];
-            for (var i = 0; i < Math.PI * 2; i += 0.2) {
-                d3.push([i, Math.tan(i)]);
-            }
-
-
-            
+        });
 
             $('#recent-box [data-rel="tooltip"]').tooltip({ placement: tooltip_placement });
             function tooltip_placement(context, source) {
@@ -318,7 +315,7 @@
                 else $(this).removeClass('dropup');
             });
 
-        })
+       
     </script>
 </body>
 </html>
