@@ -16,12 +16,12 @@ pipeline {
        script {
        def MSBuildScannerHome = tool 'MSBuild_SonarScanner';
            withSonarQubeEnv("LocalSonar") {
-           bat "${MSBuildScannerHome}\\SonarQube.Scanner.MSBuild.exe end"
+           bat '''${MSBuildScannerHome}\\SonarQube.Scanner.MSBuild.exe end
            -Dsonar.projectKey=PaySys \
            -Dsonar.sources=. \
            -Dsonar.css.node=. \
            -Dsonar.host.url=http://localhost:9000 \
-           -Dsonar.login=061603e96608663d139c9009b29eae295000584c"
+           -Dsonar.login=dgdhd6585gjgkgkfkfflf7584949'''
                }
            }
        }
