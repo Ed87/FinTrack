@@ -93,8 +93,8 @@ C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\bin\System.Net.Http.Formatting.x
 C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\bin\System.Web.Http.xml
 C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\bin\System.Web.Http.WebHost.xml
 C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\obj\Debug\PaySys.csprojAssemblyReference.cache
 C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\obj\Debug\PaySys.csproj.CoreCompileInputs.cache
 C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\obj\Debug\PaySys.csproj.CopyComplete
 C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\obj\Debug\PaySys.dll
 C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\obj\Debug\PaySys.pdb
-C:\Users\tshumae.FBC\source\repos\PaySys\PaySys\obj\Debug\PaySys.csprojAssemblyReference.cache
