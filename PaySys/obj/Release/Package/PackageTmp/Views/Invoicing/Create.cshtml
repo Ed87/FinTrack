@@ -1,0 +1,370 @@
+﻿@model PaySys.Models.Invoice
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutPageh.cshtml";
+}
+
+@using (Html.BeginForm("Create", "Invoicing", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">Invoicing</a>
+                </li>
+
+                <li class="active">Create</li>
+            </ul><!-- /.breadcrumb -->
+
+            <div class="nav-search" id="nav-search">
+                <form class="form-search">
+                    <span class="input-icon">
+                        <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                        <i class="ace-icon fa fa-search nav-search-icon"></i>
+                    </span>
+                </form>
+            </div><!-- /.nav-search -->
+        </div>
+
+        <div class="page-content">
+            <div class="ace-settings-container" id="ace-settings-container">
+                <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                    <i class="ace-icon fa fa-cog bigger-130"></i>
+                </div>
+
+                <div class="ace-settings-box clearfix" id="ace-settings-box">
+                    <div class="pull-left width-50">
+                        <div class="ace-settings-item">
+                            <div class="pull-left">
+                                <select id="skin-colorpicker" class="hide">
+                                    <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                    <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                    <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                    <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                                </select>
+                            </div>
+                            <span>&nbsp; Choose Skin</span>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-add-container">
+                                Inside
+                                <b>.container</b>
+                            </label>
+                        </div>
+                    </div><!-- /.pull-left -->
+
+                    <div class="pull-left width-50">
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                        </div>
+                    </div><!-- /.pull-left -->
+                </div><!-- /.ace-settings-box -->
+            </div><!-- /.ace-settings-container -->
+            <h4 class="box-title">Create Invoice</h4>
+            <div class="hr hr-16 hr-dotted"></div>
+            <div class="text-success">@ViewBag.SuccessMessage</div>
+            <div class="red"><strong>@ViewBag.ErrorMessage</strong></div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div>
+                        <div class="user-profile row">
+                            <div class="col-sm-offset-1 col-sm-8">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                              
+                                <div>
+                                    <div class="tabbable">
+                                        <div class="tab-content profile-edit-tab-content">
+                                            <div id="edit" class="tab-pane in active">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-8">
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Service</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.DropDownListFor(m => m.AllocationId, Model.Services, "Select Service", htmlAttributes: new { @class = "form-control" })
+                                                                        @Html.ValidationMessageFor(model => model.AllocationId, "", new { @class = "text-danger" })
+
+
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Vendor</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.DropDownListFor(m => m.VendorId, Model.Vendors, "Select Vendor", htmlAttributes: new { @class = "form-control" })
+                                                                        @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
+
+
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Description</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Unit</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.DropDownListFor(m => m.UnitId, Model.Units, "Select SBU", htmlAttributes: new { @class = "form-control" })
+                                                                        @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
+
+
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            @*<div id="dpts" style="display:none">*@
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Department</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.DropDownListFor(m => m.DepartmentId, Model.Departments, "", htmlAttributes: new { @class = "form-control" })
+                                                                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            @*</div>*@
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Category</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.DropDownListFor(m => m.ExpId, Model.Expenses, "Select Expense Type", htmlAttributes: new { @class = "form-control" })
+                                                                        @Html.ValidationMessageFor(model => model.ExpId, "", new { @class = "text-danger" })
+
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Date</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.EditorFor(m => m.CreatedOn, new { htmlAttributes = new { @class = "input-medium date-picker" } })
+
+                                                                        @Html.ValidationMessageFor(model => model.CreatedOn, "", new { @class = "text-danger" })
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            @*<div id="paymentinfo" style="display:none">*@
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Quoted Amount</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.EditorFor(model => model.QuotedAmount, new { htmlAttributes = new { @class = "form-control", @min = "1" } })
+                                                                        @Html.ValidationMessageFor(model => model.QuotedAmount, "", new { @class = "text-danger" })
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="space-4"></div>
+                                                            @*</div>*@
+
+                                                            <div class="form-group">
+                                                                
+                                                               
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Quoted Invoice</label>
+                                                                    @*<input type="file" class="multiple" name="files" multiple />
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Actual Invoice</label>
+                                                                    <input type="file"  name="files" /><br />*@
+                                                                   
+                                                               
+                                                                <div class="col-md-5">
+            @Html.EditorFor(model => model.PostedFile, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
+            @Html.ValidationMessageFor(model => model.PostedFile, "", new { @class = "text-danger" })
+        </div>
+                                                            </div>
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Actual Amount</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.EditorFor(model => model.ActualAmount, new { htmlAttributes = new { @class = "form-control", @min = "1" } })
+                                                                        @Html.ValidationMessageFor(model => model.ActualAmount, "", new { @class = "text-danger" })
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                       
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Currency</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.DropDownListFor(m => m.CurrencyId, Model.Currencies, "Select Currency", htmlAttributes: new { @class = "form-control" })
+                                                                        @Html.ValidationMessageFor(model => model.CurrencyId, "", new { @class = "text-danger" })
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="space-4"></div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Quantity</label>
+
+                                                                <div class="col-sm-9">
+                                                                    <span class="input-icon">
+                                                                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                                                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        <div class="">
+                                                            <div class="col-md-offset-3 col-md-9">
+                                                                <input type="submit" value="Save" class="btn btn-sm btn-success" />
+
+                                                                &nbsp; &nbsp;
+                                                                <button class="btn" type="reset">
+                                                                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                                    Reset
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+@*@section scripts {
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#PaymentTypes').change(function () {
+                    var ddlValue = $(this).val();
+
+                    if (ddlValue == "1" || ddlValue == "2" || ddlValue == "3" || ddlValue == "4") {
+                        $('#paymentinfo').show();
+
+                    }
+
+                    else if (ddlValue == "0") {
+
+                        $('#paymentinfo').hide();
+                    }
+
+
+
+                });
+            });
+        </script>
+    }
+    }*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Units').change(function () {
+                var ddlValue = $(this).val();
+                if (ddlValue == "1" || ddlValue == "2" || ddlValue == "3" || ddlValue == "4" || ddlValue == "5" || ddlValue == "6") {
+                    $('#dpts').show();
+
+                }
+                else  {
+
+                    $('#dpts').hide();
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $('#UnitId').change(function () {
+            var selectedUnit = $("#UnitId").val();
+            var departmentSelect = $('#DepartmentId');
+                departmentSelect .empty();
+            if (selectedUnit != null && selectedUnit != '') {
+                $.getJSON('@Url.Action("GetDepartmentsByUnit")', { UnitId: selectedUnit }, function (departments) {
+                    if (departments != null && !jQuery.isEmptyObject(departments))
+                        {
+
+                            departmentSelect.append($('<option/>', {
+                                value: null,
+                                text: "Select Department"
+                            }));
+                        $.each(departments, function (index, department) {
+                            departmentSelect.append($('<option/>', {
+                                value: department.Value,
+                                text: department.Text
+                                }));
+                            });
+                        };
+                    });
+                }
+            });
+    </script>
+}

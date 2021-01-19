@@ -1,0 +1,251 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPageh.cshtml";
+}
+
+<div id="wrapper">
+    <div class="main-content container">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">Invoicing</a>
+                </li>
+
+                <li class="active">Create</li>
+            </ul><!-- /.breadcrumb -->
+
+            <div class="nav-search" id="nav-search">
+                <form class="form-search">
+                    <span class="input-icon">
+                        <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                        <i class="ace-icon fa fa-search nav-search-icon"></i>
+                    </span>
+                </form>
+            </div><!-- /.nav-search -->
+        </div>
+        <div class="page-content">
+            <div class="ace-settings-container" id="ace-settings-container">
+                <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                    <i class="ace-icon fa fa-cog bigger-130"></i>
+                </div>
+
+                <div class="ace-settings-box clearfix" id="ace-settings-box">
+                    <div class="pull-left width-50">
+                        <div class="ace-settings-item">
+                            <div class="pull-left">
+                                <select id="skin-colorpicker" class="hide">
+                                    <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                    <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                    <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                    <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                                </select>
+                            </div>
+                            <span>&nbsp; Choose Skin</span>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-add-container">
+                                Inside
+                                <b>.container</b>
+                            </label>
+                        </div>
+                    </div><!-- /.pull-left -->
+
+                    <div class="pull-left width-50">
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
+                            <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                        </div>
+                    </div><!-- /.pull-left -->
+                </div><!-- /.ace-settings-box -->
+            </div><!-- /.ace-settings-container -->
+            <h4 class="box-title">Reports</h4>
+            <div class="hr hr-16 hr-dotted"></div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div>
+                        <div class="user-profile row">
+                            <div class="col-sm-offset-1 col-sm-8">
+                                <div class="col-sm-6">
+                                    <div class="dd dd-draghandle">
+                                        <ol class="dd-list">
+
+                                            <li class="dd-item dd2-item dd-collapsed" data-id="15">
+                                                <button data-action="collapse" type="button" style="display: none;">Collapse</button><button data-action="expand" type="button" style="display: block;">Expand</button>
+                                                <div class="dd-handle dd2-handle">
+                                                    <i class="normal-icon ace-icon fa fa-signal orange bigger-130"></i>
+                                                    
+                                                    <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+                                                </div>
+                                                <div class="dd2-content">Reports</div>
+
+                                                <ol class="dd-list" style="display: none;">
+                                                    <li class="dd-item dd2-item" data-id="16">
+                                                        <div class="dd-handle dd2-handle">
+                                                            <i class="normal-icon ace-icon fa glyphicon-list green bigger-130"></i>
+
+                                                        </div>
+                                                        <div class="dd2-content">
+                                                            @Html.ActionLink(" Payments Master", "PurchasesMaster")
+                                                        </div>
+
+                                                    </li>
+                                                    <li class="dd-item dd2-item dd-colored" data-id="17">
+                                                        <div class="dd-handle dd2-handle btn-info">
+                                                            <i class="normal-icon ace-icon fa fa-calendar green bigger-130"></i>
+
+                <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+                                                        </div>
+                                                        <div class="dd2-content">
+                                                            @Html.ActionLink(" Payments By Date", "PurchasesByDate")
+                                                        </div>
+                                                        @*<div class="dd2-content btn-info no-hover">Published Articles</div>*@
+                                                    </li>
+                                                    <li class="dd-item dd2-item dd-colored" data-id="17">
+                                                        <div class="dd-handle dd2-handle btn-info">
+                                                            <i class="normal-icon ace-icon fa fa-search green bigger-130"></i>
+
+                <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+                                                        </div>
+                                                        <div class="dd2-content">
+                                                            @Html.ActionLink(" Payments By All Criteria", "PurchasesReportByCriteria")
+                                                        </div>
+                                                        @*<div class="dd2-content btn-info no-hover">Published Articles</div>*@
+                                                    </li>
+
+                                                    <li class="dd-item dd2-item dd-colored" data-id="17">
+                                                        <div class="dd-handle dd2-handle btn-info">
+                                                            <i class="normal-icon ace-icon fa fa-calendar green bigger-130"></i>
+
+                                                        </div>
+                                                        <div class="dd2-content">
+                                                            @Html.ActionLink(" Payments By Quarter", "PurchasesByQuarter")
+                                                        </div>
+                                                        @*<div class="dd2-content btn-info no-hover">Published Articles</div>*@
+                                                    </li>
+                                                    <li class="dd-item dd2-item dd-colored" data-id="17">
+                                                        <div class="dd-handle dd2-handle btn-info">
+                                                            <i class="normal-icon ace-icon fa fa-calendar green bigger-130"></i>
+
+                                                        </div>
+                                                        <div class="dd2-content">
+                                                            @Html.ActionLink(" Payments By Month", "PurchasesByMonth")
+                                                        </div>
+                                                        @*<div class="dd2-content btn-info no-hover">Published Articles</div>*@
+                                                    </li>
+                                                   
+                                                    <li class="dd-item dd2-item" data-id="18">
+                                                        <div class="dd-handle dd2-handle">
+                                                            <i class="ui-icon-document"></i>
+
+                                                            <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+                                                        </div>
+                                                        <div class="dd2-content">
+                                                            @Html.ActionLink("Memorandum ", "GenerateSingleMemo")
+                                                        </div>
+
+                                                    </li>
+                                                </ol>
+                                            </li>
+
+      
+                                        </ol>
+
+
+
+
+                                        <ol class="dd-list">
+
+                                            <li class="dd-item dd2-item dd-collapsed" data-id="15">
+                                                <button data-action="collapse" type="button" style="display: none;">Collapse</button><button data-action="expand" type="button" style="display: block;">Expand</button>
+                                                <div class="dd-handle dd2-handle">
+                                                    <i class="normal-icon ace-icon fa fa-signal orange bigger-130"></i>
+
+                                                    <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+                                                </div>
+                                                <div class="dd2-content">System</div>
+
+                                                <ol class="dd-list" style="display: none;">
+                                                    <li class="dd-item dd2-item" data-id="16">
+                                                        <div class="dd-handle dd2-handle">
+                                                            <i class="normal-icon ace-icon fa fa-user red bigger-130"></i>
+
+                                                                <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+                                                        </div>
+                                                        <div class="dd2-content">
+                                                            @Html.ActionLink("Audit Trail", "PurchasesMaster")
+                                                        </div>
+
+                                                    </li>
+
+
+                                                </ol>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+    @section Scripts {
+
+        @Scripts.Render("~/assets2/js/tree.min.js")
+        @Scripts.Render("~/assets2/js/ace-elements.min.js")
+        @Scripts.Render("~/assets2/js/ace.min.js")
+        @Scripts.Render("~/assets2/js/jquery.nestable.min.js")
+
+        <script type="text/javascript">
+            jQuery(function ($) {
+
+                $('.dd').nestable();
+
+                $('.dd-handle a').on('mousedown', function (e) {
+                    e.stopPropagation();
+                });
+
+                $('[data-rel="tooltip"]').tooltip();
+
+            });
+        </script>
+    }
+
+

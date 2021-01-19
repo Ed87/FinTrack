@@ -1,0 +1,110 @@
+﻿@model PaySys.Models.Invoice
+@{
+    ViewBag.Title = "PurchasesReportByCriteria";
+    Layout = "~/Views/Shared/_LayoutPageh.cshtml";
+}
+
+@using (Html.BeginForm("PurchasesReportByCriteria", "Reports", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="main-content-inner">
+        <div class="page-content">
+            <div class="page-header">
+                <h1>Payments By Criteria</h1>
+            </div>
+            <div class="text-success">@ViewBag.SuccessMessage</div>
+            <div class="error">@ViewBag.ErrorMessage</div>
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <div>
+                        <div class="user-profile row">
+                            <div class="col-sm-offset-1 col-sm-8">
+                                <form class="form-horizontal">
+                                    <div class="tabbable">
+                                        <div class="tab-content profile-edit-tab-content">
+                                            <div id="edit" class="tab-pane in active">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-8">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-username">Business Unit</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.DropDownListFor(m => m.UnitId, Model.Units, "--Select SBU--", htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="space-4"></div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-username">Expense Type</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.DropDownListFor(m => m.ExpId, Model.Expenses, "--Select Expense Type--", htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.ExpId, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="space-4"></div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-username">Service</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.DropDownListFor(m => m.AllocationId, Model.Services, "--Select Service--", htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.AllocationId, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="space-4"></div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-username">PayDay Code</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.DropDownListFor(m => m.UnitId, Model.Units, "Select SBU", htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>*@
+                                                        <div class="space-4"></div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-username">Vendor</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.DropDownListFor(m => m.VendorId, Model.Vendors, "--Select Vendor--", htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.VendorId, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="space-4"></div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-username">Currency</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.DropDownListFor(m => m.CurrencyId, Model.Currencies, "--Select Currency--", htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.CurrencyId, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="space-4"></div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-username">Format</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.DropDownListFor(m => m.FormatId, Model.FileFormats, "Select ExportType", htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.FormatId, "", new { @class = "text-danger" })
+                                                                @*@Html.DropDownList("myList", ViewBag.myList as SelectList)*@
+                                                                @*// @Html.ValidationMessageFor(model => model.myList, "", new { @class = "text-danger" })*@
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="space-4"></div>
+                                                        <div class="form-actions center">
+                                                            <button type="submit" class="btn btn-sm btn-success">
+                                                                Run
+                                                                <i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}

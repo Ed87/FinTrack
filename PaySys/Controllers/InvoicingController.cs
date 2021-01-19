@@ -573,10 +573,10 @@ namespace PaySys.Controllers
                     //{
                         var fileName = String.Format("{1}{2}{0}", Path.GetFileName(PostedFile.FileName), invoice.RequestedBy, DateTime.Now.ToString("yyyyMMddHHmmss_"));
                         var path = "";
+                        var illegalChar = "/fbc/";
                         path = Path.Combine(Server.MapPath("~/Uploads/InvoiceAttachments/"), fileName);
-                        PostedFile.SaveAs(path);
-
-
+                        var absPath = path.Replace(illegalChar, "/");
+                        PostedFile.SaveAs(absPath);
 
                     if (invoice.ActualAmount < invoice.QuotedAmount)
                     {
@@ -588,7 +588,7 @@ namespace PaySys.Controllers
                     }
 
                     using (SqlConnection conn = new SqlConnection(DatabaseConnect))
-                        {
+                    {
 
                             SqlCommand cmd = new SqlCommand("CreateInvoice", conn);
                             cmd.CommandType = CommandType.StoredProcedure;

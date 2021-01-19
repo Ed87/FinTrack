@@ -1,0 +1,88 @@
+﻿@model PaySys.Models.Invoice
+@{
+    ViewBag.Title = "UpdateInvoice";
+    Layout = "~/Views/Shared/_LayoutPageh.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="main-content-inner">
+        <div class="page-content">
+            <h4 class="box-title">Update Invoice</h4>
+            <div class="text-success">@ViewBag.SuccessMessage</div>
+            <div class="error">@ViewBag.ErrorMessage</div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div>
+                        <div class="user-profile row">
+                            <div class="col-sm-offset-1 col-sm-8">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div>
+                                    <div class="tabbable">
+                                        <div class="tab-content profile-edit-tab-content">
+                                            <div id="edit" class="tab-pane in active">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-8">
+                                                        <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Approve</label>
+
+                                                            <div class="col-sm-9">
+                                                                <span class="input-icon">
+                                                                    @Html.DropDownListFor(model => model.Approve, new List<SelectListItem>  {
+
+                                           new SelectListItem{Text="Settle Invoice", Value="1"},
+                                           new SelectListItem{Text="Reject Invoice", Value="2"},
+
+                                }, new { @class = "form-control" })
+
+                                                                    @Html.ValidationMessageFor(model => model.Approve, "", new { @class = "text-danger" })
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="space-4"></div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-facebook">Attachment</label>
+                                                            <div class="col-md-5">
+                                                                @Html.EditorFor(model => model.PostedFile, new { htmlAttributes = new { @class = "form-control", @type = "file" } })
+                                                                @Html.ValidationMessageFor(model => model.PostedFile, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+
+                                                    <div class="">
+                                                        <div class="col-md-offset-3 col-md-9">
+                                                            <input type="submit" value="Save" class="btn btn-sm btn-success" />
+
+                                                            &nbsp; &nbsp;
+                                                            <button class="btn" type="reset">
+                                                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                                Reset
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+}
+
+
+
+
+
